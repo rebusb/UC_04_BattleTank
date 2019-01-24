@@ -7,4 +7,4 @@
 
 ## Lectures as we go
 * L108 - creating the github repo, info on github markdown, commits
-
+	* L108b cloned to local repos - so easy!
