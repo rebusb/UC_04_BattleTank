@@ -1,5 +1,6 @@
 # top level ignores
 
-# Images folder
 Images/*
 Imports/*
+PackagedGame/*
+
