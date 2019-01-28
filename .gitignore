@@ -4,3 +4,6 @@ Images/*
 Imports/*
 PackagedGame/*
 
+# for command line example
+.vs
+PolymorphismEx/PolymorphExample/Debug/*
