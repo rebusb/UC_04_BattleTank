@@ -49,6 +49,8 @@ void ATankPlayerController::Tick(float DeltaTime)
 		UE_LOG(LogTemp, Warning, TEXT("ATankPlayerController has ticked."));
 		bHasTicked = true;
 	}
+
+	AimTowardsCrosshair();
 }
 
 
@@ -57,14 +59,7 @@ ATank* ATankPlayerController::GetControlledTank() const
 {
 
 	ATank* TankPawn = Cast<ATank>(GetPawn());
-	if (TankPawn)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Got Tank Pawn %s"), *TankPawn->GetName());
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Did NOT get Tank Pawn !!!"));
-	}
+
 	return TankPawn;
 
 }
@@ -74,6 +69,10 @@ void ATankPlayerController::AimTowardsCrosshair()
 {
 	if (!GetControlledTank()) {return;}
 	
+	FVector HitLocation; // Out parameter
+
+	UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
+
 	// Get world location of linetrace through crosshair
 	// if it gets hit (landscape, enemy?) 
 		// tell controlled tank to aim at this point
