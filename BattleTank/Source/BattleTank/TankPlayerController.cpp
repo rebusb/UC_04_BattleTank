@@ -116,13 +116,16 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 	//debug line
 	//FColor lineColor(1.0, 0.4, 0.0);
 	//DrawDebugLine(GetWorld(), WorldLocation+FVector(0.0,10.0,0.0), (WorldLocation + WorldDirection * LineTraceRange), lineColor, true, 1.0, 1.0, 5.0);
+	const FName Tag = TEXT("TraceTag"); //////   much nicer debug trace!!!
+	GetWorld()->DebugDrawTraceTag = Tag; /////
+	FCollisionQueryParams Params(Tag);//////
 
 	 result = GetWorld()->LineTraceSingleByChannel(
 		OutHit,
 		WorldLocation,
 		(WorldLocation + WorldDirection * LineTraceRange), 
 		(ECollisionChannel::ECC_Visibility),
-		TraceParameters
+		Params
 		);
 
 	 if (!result) { return false; }
