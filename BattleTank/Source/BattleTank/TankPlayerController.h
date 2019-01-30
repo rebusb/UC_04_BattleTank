@@ -21,10 +21,14 @@ protected:
 	// flag to check if tick() has fired to prevent log spamming
 	bool bHasTicked;
 	bool bHasPlayerTicked;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ScreenAimingPosition)
+	
+	UPROPERTY(EditAnywhere)
+		float LineTraceRange = 1000000; //10km in cm
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AimSystemSettings)
+		FVector AimStartOffset;		//adjust aim trace origin, offset from root location in cm
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AimSystemSettings)
 		float CrosshairXLocation = 0.5;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ScreenAimingPosition)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AimSystemSettings)
 		float CrosshairYLocation = 0.33333;
 
 
