@@ -52,13 +52,6 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 	AimTowardsCrosshair();
 
-	if (!bHasTicked)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("ATankPlayerController has ticked."));
-		bHasTicked = true;
-	}
-
-	
 }
 
 
@@ -83,7 +76,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Hit Location %s "), *HitLocation.ToString());
 		// TODO tell controlled tank to aim at this point
-		// UE_LOG(LogTemp, Warning, TEXT("Look Location: %s"), *HitLocation.ToString());
+		GetControlledTank()->AimAt(HitLocation);
 	}
 	else
 	{

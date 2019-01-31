@@ -27,18 +27,27 @@ void ATankAIController::BeginPlay()
 }
 
 
+void ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	//Target is enemy player
+	if (auto Target = GetPlayerTank())
+	{
+		// TODO Move toward target
+
+		// Aim toward target
+		FVector HitLocation = Target->GetTargetLocation();
+		GetControlledTank()->AimAt(HitLocation);
+	
+		// Fire when ready
+	}
+}
+
 ATank* ATankAIController::GetControlledTank() const
 {
 
 	ATank* TankPawn = Cast<ATank>(GetPawn());
-	if (TankPawn)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Got Tank Pawn %s"), *TankPawn->GetName());
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Did NOT get Tank Pawn !!!"));
-	}
 	return TankPawn;
 
 }
