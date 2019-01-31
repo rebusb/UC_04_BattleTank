@@ -18,6 +18,7 @@ public:
 
 	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
 
+	//TODO Add set turret reference
 
 protected:
 	// Called when the game starts
@@ -27,7 +28,10 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	void AimAt(FVector HitLocation);
+	void AimAt(FVector HitLocation, float LaunchSpeed);
+
+	//Bring Tank barrel in line with aim direction
+	void MoveBarrelTowards(FVector AimDirection);
 		
 private:
 	UStaticMeshComponent* BarrelComponent = nullptr;
