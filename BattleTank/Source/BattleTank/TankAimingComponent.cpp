@@ -2,6 +2,7 @@
 
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 #include "Components/StaticMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -19,6 +20,11 @@ UTankAimingComponent::UTankAimingComponent()
 void  UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	BarrelComponent = BarrelToSet;
+}
+
+void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
+{
+	TurretComponent = TurretToSet;
 }
 
 // Called when the game starts
@@ -49,7 +55,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	auto StartLocation = BarrelComponent->GetSocketLocation("muzzle");
 	TArray<AActor*>ActorsToIgnore;
 	ActorsToIgnore.Add(Cast<AActor>(this));
-	bool DrawDebug = true;
+	bool DrawDebug = false;
 	auto result = UGameplayStatics::SuggestProjectileVelocity(
 		this,
 		OutLaunchVelocity,
@@ -90,6 +96,13 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto BarrelRotator = BarrelComponent->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
+
+	//rotate to azmuth
+	// rotate turret component
+	//convert yaw to spin direction... (or let Turret do that?)
+	TurretComponent->Spin(DeltaRotator.Yaw);
+
+	//rotate to elevation
 	UE_LOG(LogTemp, Warning, TEXT("Rotator.Pitch %f"), DeltaRotator.Pitch);
 	BarrelComponent->Elevate(DeltaRotator.Pitch);	
 
