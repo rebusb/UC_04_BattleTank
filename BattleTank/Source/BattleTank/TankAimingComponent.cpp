@@ -42,8 +42,6 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
 	if (!BarrelComponent) { return; }
-	
-	
 
 	// get vector to launch shell, consider toggle high low as part of advanced game (ex. shot over mtns)
 	// OUT for resulting launch velocity
@@ -67,14 +65,18 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		DrawDebug
 	);
 
+	auto Time = GetWorld()->GetTimeSeconds();
+
 	if (result)
 	{
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
+		
+		UE_LOG(LogTemp, Warning, TEXT("Time $f: got AimDirection"), Time);
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Unable to SuggestProjectileVelocity"));
+		UE_LOG(LogTemp, Warning, TEXT("Time $f: unable to get AimDirection"), Time);
 	}
 	
 }
@@ -88,7 +90,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
 
-	UE_LOG(LogTemp, Warning, TEXT("AimAsRotator %s"), *AimAsRotator.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("AimAsRotator %s"), *AimAsRotator.ToString());
 
 	//Get delta to desired Aim (Aim-current)
 	//Apply relative rotation to turret on Z axis to set aszmuth 
@@ -96,9 +98,3 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	BarrelComponent->Elevate(5);	//TODO fix magic number - will relate to aim input
 
 }
-
-/*	UE_LOG(LogTemp, Warning, TEXT("%s aims at %s with launch vel %s"),
-			*GetOwner()->GetName(),
-			*HitLocation.ToString(),
-			*AimDirection.ToString());
-*/

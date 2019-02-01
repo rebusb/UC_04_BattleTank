@@ -1,0 +1,14 @@
+General notes
+and code snippets taken from active code
+
+
+/*	UE_LOG(LogTemp, Warning, TEXT("%s aims at %s with launch vel %s"),
+			*GetOwner()->GetName(),
+			*HitLocation.ToString(),
+			*AimDirection.ToString());
+*/
+
+
+	const FName Tag = TEXT("TraceTag"); //////   much nicer debug trace!!!
+	GetWorld()->DebugDrawTraceTag = Tag; /////
+	FCollisionQueryParams Params(Tag);//////
