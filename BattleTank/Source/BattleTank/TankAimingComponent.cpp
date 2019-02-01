@@ -1,8 +1,10 @@
 // RebusStudios 2019
 
 #include "TankAimingComponent.h"
+#include "TankBarrel.h"
 #include "Components/StaticMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
+
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -14,7 +16,7 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-void  UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
+void  UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	BarrelComponent = BarrelToSet;
 }
@@ -91,6 +93,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	//Get delta to desired Aim (Aim-current)
 	//Apply relative rotation to turret on Z axis to set aszmuth 
 	//Apply relative rotation to barrel on X axis to set elevation
+	BarrelComponent->Elevate(5);	//TODO fix magic number - will relate to aim input
 
 }
 
