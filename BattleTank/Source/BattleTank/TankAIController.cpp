@@ -40,7 +40,6 @@ void ATankAIController::Tick(float DeltaTime)
 
 		// Aim toward target
 		FVector HitLocation = Target->GetTargetLocation();
-		UE_LOG(LogTemp, Warning, TEXT("AI HitLocation:%s"), *HitLocation.ToString());
 		GetControlledTank()->AimAt(HitLocation);
 	
 		// Fire when ready
