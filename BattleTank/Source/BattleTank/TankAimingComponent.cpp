@@ -79,10 +79,10 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		AimDirection = OutLaunchVelocity.GetSafeNormal();
 		
 		
-		UE_LOG(LogTemp, Warning, TEXT("Time %f: got AimDirection: %s"), Time, *AimDirection.ToString());
+		//UE_LOG(LogTemp, Warning, TEXT("Time %f: got AimDirection: %s"), Time, *AimDirection.ToString());
 	} else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Time %f: unable to get AimDirection %s"), Time, *AimDirection.ToString());
+		//UE_LOG(LogTemp, Warning, TEXT("Time %f: unable to get AimDirection %s"), Time, *AimDirection.ToString());
 	}
 	
 	MoveBarrelTowards(AimDirection);
@@ -103,7 +103,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	TurretComponent->Spin(DeltaRotator.Yaw);
 
 	//rotate to elevation
-	UE_LOG(LogTemp, Warning, TEXT("Rotator.Pitch %f"), DeltaRotator.Pitch);
+	//UE_LOG(LogTemp, Warning, TEXT("Rotator.Pitch %f"), DeltaRotator.Pitch);
 	BarrelComponent->Elevate(DeltaRotator.Pitch);	
 
 }

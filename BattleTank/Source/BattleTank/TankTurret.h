@@ -22,7 +22,7 @@ public:
 private:
 	//maximum movement speed of turret rotation
 	UPROPERTY(EditAnywhere, Category = Setup)
-		float MaxDegressPerSecond = 15.0;
+		float MaxDegressPerSecond = 30.0;
 
 	
 	
