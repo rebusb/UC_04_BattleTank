@@ -53,7 +53,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 {
 	if (!GetControlledTank()) {return;}
 	
-	FVector HitLocation; // Out parameter
+	FVector HitLocation; // Out parameter - default to forward vector
 
 	if (GetSightRayHitLocation(HitLocation))
 	{
@@ -62,6 +62,8 @@ void ATankPlayerController::AimTowardsCrosshair()
 	}
 	else
 	{
+		//TODO tell tank to aim at nothing (go to neutral position)
+
 	}
 	
 }

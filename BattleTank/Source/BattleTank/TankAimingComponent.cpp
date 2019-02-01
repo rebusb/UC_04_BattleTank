@@ -66,19 +66,20 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	);
 
 	auto Time = GetWorld()->GetTimeSeconds();
+	FVector AimDirection;
 
 	if (result)
 	{
-		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
-		MoveBarrelTowards(AimDirection);
+		AimDirection = OutLaunchVelocity.GetSafeNormal();
 		
-		UE_LOG(LogTemp, Warning, TEXT("Time $f: got AimDirection"), Time);
-	}
-	else
+		
+		UE_LOG(LogTemp, Warning, TEXT("Time %f: got AimDirection: %s"), Time, *AimDirection.ToString());
+	} else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Time $f: unable to get AimDirection"), Time);
+		UE_LOG(LogTemp, Warning, TEXT("Time %f: unable to get AimDirection %s"), Time, *AimDirection.ToString());
 	}
 	
+	MoveBarrelTowards(AimDirection);
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
@@ -89,12 +90,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto BarrelRotator = BarrelComponent->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
-
-	//UE_LOG(LogTemp, Warning, TEXT("AimAsRotator %s"), *AimAsRotator.ToString());
-
-	//Get delta to desired Aim (Aim-current)
-	//Apply relative rotation to turret on Z axis to set aszmuth 
-	//Apply relative rotation to barrel on X axis to set elevation
-	BarrelComponent->Elevate(5);	//TODO fix magic number - will relate to aim input
+	UE_LOG(LogTemp, Warning, TEXT("Rotator.Pitch %f"), DeltaRotator.Pitch);
+	BarrelComponent->Elevate(DeltaRotator.Pitch);	
 
 }

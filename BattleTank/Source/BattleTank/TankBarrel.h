@@ -24,7 +24,7 @@ public:
 private:
 	//maximum movement speed of barrel elevator
 	UPROPERTY(EditAnywhere, Category = Setup)
-		float MaxDegressPerSecond = 20;
+		float MaxDegressPerSecond = 8.0;
 
 	//maximum angle barrel can rotate
 	UPROPERTY(EditAnywhere, Category = Setup)
