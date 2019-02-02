@@ -10,6 +10,7 @@
 class UTankBarrel;
 class UTankTurret;
 class UTankAimingComponent;
+class AProjectile;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -40,6 +41,13 @@ protected:
 private:
 	// Sets default values for this pawn's properties
 	ATank();
+
+	//Local reference to the barrel for launching projectile from
+	UTankBarrel* Barrel;
+
+	//reference to projectile
+	UPROPERTY(EditAnywhere, Category = "Firing Setup")
+		TSubclassOf<AProjectile> ProjectileBP;
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
