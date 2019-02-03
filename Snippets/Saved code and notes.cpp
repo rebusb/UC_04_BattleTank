@@ -1,5 +1,5 @@
-General notes
-and code snippets taken from active code
+//General notes
+//and code snippets taken from active code
 
 
 /*	UE_LOG(LogTemp, Warning, TEXT("%s aims at %s with launch vel %s"),
@@ -12,3 +12,8 @@ and code snippets taken from active code
 	const FName Tag = TEXT("TraceTag"); //////   much nicer debug trace!!!
 	GetWorld()->DebugDrawTraceTag = Tag; /////
 	FCollisionQueryParams Params(Tag);//////
+
+
+
+	/// to quit the game gracefully:
+		UKismetSystemLibrary::QuitGame(this, nullptr, EQuitPreference::Quit);

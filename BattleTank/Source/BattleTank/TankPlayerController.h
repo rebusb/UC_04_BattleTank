@@ -22,13 +22,13 @@ protected:
 	bool bHasTicked;
 	bool bHasPlayerTicked;
 	
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 		float LineTraceRange = 1000000; //10km in cm
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AimSystemSettings)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = AimSystemSettings)
 		FVector AimStartOffset;		//adjust aim trace origin, offset from root location in cm
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AimSystemSettings)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = AimSystemSettings)
 		float CrosshairXLocation = 0.5;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AimSystemSettings)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = AimSystemSettings)
 		float CrosshairYLocation = 0.33333;
 
 

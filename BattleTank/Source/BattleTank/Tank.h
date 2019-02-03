@@ -19,7 +19,6 @@ class BATTLETANK_API ATank : public APawn
 
 public:
 
-
 	UFUNCTION(BlueprintCallable, Category = "Firing Setup")
 		void SetBarrelReference(UTankBarrel* BarrelToSet);
 
@@ -35,8 +34,11 @@ protected:
 	// Aiming Component delegate 
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
-	UPROPERTY(EditAnywhere, Category = "Firing Setup")
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 		float LaunchSpeed = 10000.0; // cm/s
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+		float ReloadTimeInSeconds = 3.0;
 
 private:
 	// Sets default values for this pawn's properties
@@ -45,8 +47,12 @@ private:
 	//Local reference to the barrel for launching projectile from
 	UTankBarrel* Barrel;
 
+	// used to keep track of reload time
+	float LastFireTime = 0.0;
+
+
 	//reference to projectile
-	UPROPERTY(EditAnywhere, Category = "Firing Setup")
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 		TSubclassOf<AProjectile> ProjectileBP;
 
 	// Called when the game starts or when spawned

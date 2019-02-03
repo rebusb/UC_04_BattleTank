@@ -32,14 +32,14 @@ void ATankAIController::Tick(float DeltaTime)
 void ATankAIController::AttackPlayer()
 {
 	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
-	auto Target = Cast<ATank>(PlayerController->GetPawn());
-	auto Tank = Cast<ATank>(GetPawn());
-	if(Tank&&Target)
+	auto PlayerTank = Cast<ATank>(PlayerController->GetPawn());
+	auto ThisTank = Cast<ATank>(GetPawn());
+	if(ThisTank&&PlayerTank)
 	{
 		// Aim toward target
-		FVector HitLocation = Target->GetTargetLocation();
-		Tank->AimAt(HitLocation);
-		Tank->Fire();
+		FVector HitLocation = PlayerTank->GetTargetLocation();
+		ThisTank->AimAt(HitLocation);
+		ThisTank->Fire();
 		// Fire when ready
 	}
 	else

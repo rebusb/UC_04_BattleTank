@@ -6,6 +6,7 @@
 #include "Projectile.h"
 
 #include "Engine/World.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 // Sets default values
 ATank::ATank()
@@ -32,22 +33,28 @@ void ATank::SetTurretReference(UTankTurret* TurretToSet)
 
 void ATank::Fire()
 {
-	if (!Barrel) { return; }
-	auto Projectile = GetWorld()->SpawnActor<AProjectile>(
-		ProjectileBP,
-		Barrel->GetSocketLocation(FName("muzzle")), 
-		Barrel->GetSocketRotation(FName("muzzle"))
-		);
+	bool bIsReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTimeInSeconds;
+	if (Barrel && bIsReloaded) {
+		//reset fire time
+		LastFireTime = GetWorld()->GetTimeSeconds();
 
-	//May need to tell Projectile to ignore Barrel collision somehow
-	if (Projectile)
-	{
-		Projectile->LaunchProjectile(LaunchSpeed);
-		//UE_LOG(LogTemp, Warning, TEXT("%f: Tank %s Fire!!! Projectile==%s"), GetWorld()->GetTimeSeconds(), *GetName(), *Projectile->GetName());
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%f: Tank %s unable to spawn Projectile"), *GetName());
+		// spawn projectile at end of barrel (muzzle socket)
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
+			ProjectileBP,
+			Barrel->GetSocketLocation(FName("muzzle")),
+			Barrel->GetSocketRotation(FName("muzzle"))
+			);
+
+		//May need to tell Projectile to ignore Barrel collision somehow
+		if (Projectile)
+		{
+			Projectile->LaunchProjectile(LaunchSpeed);
+			//UE_LOG(LogTemp, Warning, TEXT("%f: Tank %s Fire!!! Projectile==%s"), GetWorld()->GetTimeSeconds(), *GetName(), *Projectile->GetName());
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("%f: Tank %s unable to spawn Projectile"), *GetName());
+		}
 	}
 }
 
@@ -64,7 +71,10 @@ void ATank::AimAt(FVector HitLocation)
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-	Fire();
+	LastFireTime = 0;
+
+
+
 }
 
 

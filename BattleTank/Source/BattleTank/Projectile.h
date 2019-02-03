@@ -25,7 +25,6 @@ protected:
 
 private:
 
-	UPROPERTY(EditAnywhere)
 	UProjectileMovementComponent* ProjectileMover = nullptr; 
 
 public:	
