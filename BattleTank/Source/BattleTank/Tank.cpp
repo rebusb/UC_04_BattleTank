@@ -33,13 +33,17 @@ void ATank::SetTurretReference(UTankTurret* TurretToSet)
 void ATank::Fire()
 {
 	if (!Barrel) { return; }
-	AProjectile* Temp = GetWorld()->SpawnActor<AProjectile>(ProjectileBP,Barrel->GetSocketLocation("muzzle"), Barrel->GetSocketRotation("muzzle"));
+	auto Projectile = GetWorld()->SpawnActor<AProjectile>(
+		ProjectileBP,
+		Barrel->GetSocketLocation(FName("muzzle")), 
+		Barrel->GetSocketRotation(FName("muzzle"))
+		);
 
 	//May need to tell Projectile to ignore Barrel collision somehow
-	if (Temp)
+	if (Projectile)
 	{
-		//Projectile = Temp;
-		UE_LOG(LogTemp, Warning, TEXT("%f: Tank %s Fire!!! Projectile==%s"), GetWorld()->GetTimeSeconds(), *GetName(), *Temp->GetName());
+		Projectile->LaunchProjectile(LaunchSpeed);
+		//UE_LOG(LogTemp, Warning, TEXT("%f: Tank %s Fire!!! Projectile==%s"), GetWorld()->GetTimeSeconds(), *GetName(), *Projectile->GetName());
 	}
 	else
 	{
