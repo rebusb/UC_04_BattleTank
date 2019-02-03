@@ -14,17 +14,6 @@ void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
 	UE_LOG(LogTemp, Warning, TEXT("TankAIController %s BeginPlay()"),*(GetName()));
-	ATank *OurTank = GetControlledTank();
-	ATank *PlayerTank = GetPlayerTank();
-
-	if (PlayerTank)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Got Player Tank %s"), *PlayerTank->GetName());
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Did NOT get Player Tank !!!"));
-	}
 
 }
 
@@ -32,36 +21,30 @@ void ATankAIController::BeginPlay()
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	// TODO Move toward target
 
+	// Attack target
+	AttackPlayer();
 	//Target is enemy player
-	if (auto Target = GetPlayerTank())
-	{
-		// TODO Move toward target
+	
+}
 
+void ATankAIController::AttackPlayer()
+{
+	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+	auto Target = Cast<ATank>(PlayerController->GetPawn());
+	auto Tank = Cast<ATank>(GetPawn());
+	if(Tank&&Target)
+	{
 		// Aim toward target
 		FVector HitLocation = Target->GetTargetLocation();
-		GetControlledTank()->AimAt(HitLocation);
-	
-		GetControlledTank()->Fire();
+		Tank->AimAt(HitLocation);
+		Tank->Fire();
 		// Fire when ready
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("%s Unable to GetPlayerTank()"), *this->GetName());
+		UE_LOG(LogTemp, Warning, TEXT("%s Unable to AttackPlayer"));
 	}
-}
 
-ATank* ATankAIController::GetControlledTank() const
-{
-
-	ATank* TankPawn = Cast<ATank>(GetPawn());
-	return TankPawn;
-
-}
-
-ATank * ATankAIController::GetPlayerTank() const
-{
-	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
-	if (!PlayerController) { return nullptr; }
-	return  Cast<ATank>(PlayerController->GetPawn());
 }

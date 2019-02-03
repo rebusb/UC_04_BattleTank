@@ -22,8 +22,5 @@ private:
 
 	void Tick(float DeltaTime) override;
 
-	ATank* GetControlledTank() const;
-
-	ATank* GetPlayerTank() const;
-	
+	void AttackPlayer();
 };
