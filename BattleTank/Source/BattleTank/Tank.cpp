@@ -6,7 +6,6 @@
 #include "Projectile.h"
 
 #include "Engine/World.h"
-#include "Kismet/KismetSystemLibrary.h"
 
 // Sets default values
 ATank::ATank()

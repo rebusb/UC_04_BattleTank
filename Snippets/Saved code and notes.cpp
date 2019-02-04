@@ -16,4 +16,6 @@
 
 
 	/// to quit the game gracefully:
+#include "Kismet/KismetSystemLibrary.h"
+
 		UKismetSystemLibrary::QuitGame(this, nullptr, EQuitPreference::Quit);
