@@ -10,6 +10,7 @@
 class UTankBarrel;
 class UTankTurret;
 class UTankAimingComponent;
+class UTankMovementComponent;
 class AProjectile;
 
 UCLASS()
@@ -33,6 +34,9 @@ public:
 protected:
 	// Aiming Component delegate 
 	UTankAimingComponent* TankAimingComponent = nullptr;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Movement")
+	UTankMovementComponent* TankMovementComponent = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 		float LaunchSpeed = 10000.0; // cm/s
