@@ -7,3 +7,9 @@ PackagedGame/*
 # for command line example
 .vs
 PolymorphismEx/PolymorphExample/Debug/*
+
+#no need to keep the broken
+*BROKEN*
+
+#or a convenient copy of the starter content
+StarterContent/

@@ -1,0 +1,41 @@
+diff --git a/.gitignore b/.gitignore
+index 3ad4753..af901c5 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -6,4 +6,10 @@ PackagedGame/*
+ 
+ # for command line example
+ .vs
+-PolymorphismEx/PolymorphExample/Debug/*
+\ No newline at end of file
++PolymorphismEx/PolymorphExample/Debug/*
++
++#no need to keep the broken
++*BROKEN*
++
++#or a convenient copy of the starter content
++StarterContent/
+\ No newline at end of file
+diff --git a/BattleTank/Content/MainMenuUI.uasset b/BattleTank/Content/MainMenuUI.uasset
+deleted file mode 100644
+index d5dff4c..0000000
+Binary files a/BattleTank/Content/MainMenuUI.uasset and /dev/null differ
+diff --git a/BattleTank/Content/Maps/BattleGround.umap b/BattleTank/Content/Maps/BattleGround.umap
+index f496f31..7adf3ca 100644
+Binary files a/BattleTank/Content/Maps/BattleGround.umap and b/BattleTank/Content/Maps/BattleGround.umap differ
+diff --git a/BattleTank/Content/Tank/TankPawnBP.uasset b/BattleTank/Content/Tank/TankPawnBP.uasset
+deleted file mode 100644
+index 5131511..0000000
+Binary files a/BattleTank/Content/Tank/TankPawnBP.uasset and /dev/null differ
+diff --git a/BattleTank/Content/TankParts/Default__TankPawnBP_C.uasset b/BattleTank/Content/TankParts/Default__TankPawnBP_C.uasset
+deleted file mode 100644
+index 85053c6..0000000
+Binary files a/BattleTank/Content/TankParts/Default__TankPawnBP_C.uasset and /dev/null differ
+diff --git a/BattleTank/Content/TankParts/TankPawnBP.uasset b/BattleTank/Content/TankParts/TankPawnBP.uasset
+deleted file mode 100644
+index 452aeb8..0000000
+Binary files a/BattleTank/Content/TankParts/TankPawnBP.uasset and /dev/null differ
+diff --git a/BattleTank/Content/TankParts/TankPawnBP_C.uasset b/BattleTank/Content/TankParts/TankPawnBP_C.uasset
+deleted file mode 100644
+index 76cd9f2..0000000
+Binary files a/BattleTank/Content/TankParts/TankPawnBP_C.uasset and /dev/null differ
