@@ -17,18 +17,17 @@ class BATTLETANK_API UTankMovementComponent : public UNavMovementComponent
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintCallable, Category = "Movement")
+	UFUNCTION(BlueprintCallable, Category = Input)
 		void IntendMoveForward(float Throw);
 
-	UFUNCTION(BlueprintCallable, Category = "Movement")
+	UFUNCTION(BlueprintCallable, Category = Input)
 		void IntendTurn(float Throw);
 
-protected:
-	UFUNCTION(BlueprintCallable, Category = "Setup")
+	UFUNCTION(BlueprintCallable, Category = Setup)
 		void InitializeTreads(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet);
 	
 private:
-	UTankTrack* TreadRight;
-	UTankTrack* TreadLeft;
+	UTankTrack* TreadRight = nullptr;
+	UTankTrack* TreadLeft = nullptr;
 
 };
