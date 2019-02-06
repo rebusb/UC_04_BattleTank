@@ -33,7 +33,9 @@ void UTankMovementComponent::IntendMoveForward(float Throw)
 void UTankMovementComponent::IntendTurn(float Throw)
 {
 	
-	if (!TreadLeft||!TreadLeft) { return; }
+	if (!TreadLeft||!TreadLeft) {
+		UE_LOG(LogTemp, Warning, TEXT("Error in IntendTurn"));
+		return; return; }
 	TreadLeft->SetThrottle(Throw);
 	TreadRight->SetThrottle(-Throw);
 
@@ -47,8 +49,15 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
 	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
 
-	float DirectionCosine = FVector::DotProduct(TankForward, AIForwardIntention);
-	IntendMoveForward(DirectionCosine);
+	float ForwardThrow = FVector::DotProduct(TankForward, AIForwardIntention);
+	
+	IntendMoveForward(ForwardThrow);
 
-	//UE_LOG(LogTemp, Warning, TEXT("%s given velocity %s"), *Name, *MoveVelocity.ToString());
+	FVector Cross = FVector::CrossProduct(TankForward, AIForwardIntention);
+	float Mag = Cross.Size();
+	float TurnThrow = Mag * (abs(Cross.Z)/Cross.Z);
+	IntendTurn(TurnThrow);
+
+	float MyRotation = GetOwner()->GetActorRotation().Yaw;
+	UE_LOG(LogTemp, Warning, TEXT("%s Turns %f, Yaw %f"), *Name, TurnThrow,MyRotation);
 }
