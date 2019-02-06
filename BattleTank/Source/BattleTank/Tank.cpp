@@ -16,8 +16,6 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>("AimingComponent");
-	//TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>("MovementComponent");
-
 }
 
 
@@ -50,7 +48,6 @@ void ATank::Fire()
 		if (Projectile)
 		{
 			Projectile->LaunchProjectile(LaunchSpeed);
-			//UE_LOG(LogTemp, Warning, TEXT("%f: Tank %s Fire!!! Projectile==%s"), GetWorld()->GetTimeSeconds(), *GetName(), *Projectile->GetName());
 		}
 		else
 		{
@@ -63,9 +60,7 @@ void ATank::Fire()
 //AimAt called to target world location
 void ATank::AimAt(FVector HitLocation)
 {
-
 	TankAimingComponent->AimAt(HitLocation,LaunchSpeed);
-
 }
 
 // Called when the game starts or when spawned
@@ -73,9 +68,6 @@ void ATank::BeginPlay()
 {
 	Super::BeginPlay();
 	LastFireTime = 0;
-
-
-
 }
 
 
@@ -83,6 +75,5 @@ void ATank::BeginPlay()
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 

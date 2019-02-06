@@ -1,6 +1,7 @@
 // RebusStudios 2019
 
 #include "TankTurret.h"
+#include "Engine/World.h"
 
 
 void UTankTurret::Spin(float SpinRate)
@@ -10,9 +11,6 @@ void UTankTurret::Spin(float SpinRate)
 	float NewRotation = RelativeRotation.Yaw + RotationChange;
 	//call parent class method to rotate
 	SetRelativeRotation(FRotator(0.0,NewRotation,0.0));
-
 	//UE_LOG(LogTemp, Warning, TEXT("%f: TankTurret SpinRate:%f NewRotation:%f"), GetWorld()->GetTimeSeconds(), SpinRate, NewRotation);
-
-
 }
 

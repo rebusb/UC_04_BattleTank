@@ -25,8 +25,6 @@ void ATankAIController::Tick(float DeltaTime)
 
 	// Attack target
 	AttackPlayer();
-	//Target is enemy player
-	
 }
 
 void ATankAIController::AttackPlayer()
@@ -36,11 +34,10 @@ void ATankAIController::AttackPlayer()
 	auto ThisTank = Cast<ATank>(GetPawn());
 	if(ThisTank&&PlayerTank)
 	{
-		// Aim toward target
+		// Aim toward target and fire
 		FVector HitLocation = PlayerTank->GetTargetLocation();
 		ThisTank->AimAt(HitLocation);
 		ThisTank->Fire();
-		// Fire when ready
 	}
 	else
 	{

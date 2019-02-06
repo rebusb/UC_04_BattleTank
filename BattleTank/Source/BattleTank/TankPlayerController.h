@@ -48,6 +48,5 @@ private:
 	void AimTowardsCrosshair();
 
 	//Set OUT parameter to world location of aim sight hit, return true if hit
-	bool GetSightRayHitLocation(FVector& HitLocation) const;
-
+	bool GetSightRayHitLocation(OUT FVector& HitLocation) const;
 };
