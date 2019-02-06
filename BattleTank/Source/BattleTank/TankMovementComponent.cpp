@@ -38,3 +38,17 @@ void UTankMovementComponent::IntendTurn(float Throw)
 	TreadRight->SetThrottle(-Throw);
 
 }
+
+///AI will call this to direct tank (AI Path Finding System)
+void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
+{
+	auto Name = GetOwner()->GetName();
+
+	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
+	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
+
+	float DirectionCosine = FVector::DotProduct(TankForward, AIForwardIntention);
+	IntendMoveForward(DirectionCosine);
+
+	//UE_LOG(LogTemp, Warning, TEXT("%s given velocity %s"), *Name, *MoveVelocity.ToString());
+}

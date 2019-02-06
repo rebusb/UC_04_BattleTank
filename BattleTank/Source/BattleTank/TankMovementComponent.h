@@ -26,6 +26,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 		void InitializeTreads(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet);
 	
+	//override NavMovementComp' method
+	void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
+
 private:
 	UTankTrack* TreadRight = nullptr;
 	UTankTrack* TreadLeft = nullptr;

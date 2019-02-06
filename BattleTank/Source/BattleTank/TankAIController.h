@@ -18,9 +18,13 @@ class BATTLETANK_API ATankAIController : public AAIController
 	GENERATED_BODY()
 
 private:
+	//radius AI stops moving toward player
+	float AcceptanceRadius = 3000.0;	
+	
 	void BeginPlay() override;
+
 
 	void Tick(float DeltaTime) override;
 
-	void AttackPlayer();
+	//void AttackPlayer();
 };
