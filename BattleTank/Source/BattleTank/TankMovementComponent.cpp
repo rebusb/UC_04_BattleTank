@@ -14,7 +14,7 @@ void UTankMovementComponent::InitializeTreads(UTankTrack * LeftTrackToSet, UTank
 	}
 
 	TreadLeft = LeftTrackToSet;
-	TreadLeft = RightTrackToSet;
+	TreadRight = RightTrackToSet;
 
 }
 

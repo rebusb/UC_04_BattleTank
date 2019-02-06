@@ -14,17 +14,19 @@ void UTankTrack::SetThrottle(float Throttle)
 		return;
 	}
 
-	auto TestCast = Cast<USceneComponent>(this);
-	if (!TestCast)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%s Cast to USceneComponent failed!!"), *this->GetClass()->GetName());
-		return;
-	}
-	FVector ForwardVec = this->GetForwardVector();
 
 	if (Throttle!=0.0)
 	{
-		auto ForceApplied = GetForwardVector() * Throttle * TrackMaxDrivingForce;
+		auto TestCast = Cast<USceneComponent>(this);
+		if (!TestCast)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("%s Cast to USceneComponent failed!!"), *this->GetClass()->GetName());
+			return;
+		}
+		FVector ForwardVec = this->GetForwardVector();
+
+
+		auto ForceApplied = ForwardVec * Throttle * TrackMaxDrivingForce;
 		auto ForceLocation = GetComponentLocation();
 		//auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
 
