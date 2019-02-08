@@ -9,6 +9,7 @@
 
 class ATank;
 
+
 /**
  *
  */
@@ -35,6 +36,8 @@ protected:
 public:
 	ATankPlayerController(const FObjectInitializer& ObjectInitializer);
 
+	//Make controlled tank available to blueprints
+	UFUNCTION(BlueprintCallable, Category = "Setup")
 	ATank* GetControlledTank() const;
 
 	void BeginPlay() override;
@@ -43,7 +46,6 @@ public:
 	//	void PlayerTick(float DeltaTime) override;
 
 private:
-
 	//Start moving barrel toward aim crosshair
 	void AimTowardsCrosshair();
 

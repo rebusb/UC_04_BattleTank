@@ -13,6 +13,9 @@ class UTankAimingComponent;
 class UTankMovementComponent;
 class AProjectile;
 
+
+
+
 UCLASS()
 class BATTLETANK_API ATank : public APawn
 {
@@ -33,6 +36,7 @@ public:
 
 protected:
 	// Aiming Component delegate 
+	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")

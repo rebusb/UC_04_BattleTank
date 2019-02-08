@@ -32,6 +32,8 @@ void ATankAIController::Tick(float DeltaTime)
 
 		// Aim toward target and fire
 		FVector HitLocation = PlayerTank->GetTargetLocation();
+
+		//refac - how do we get these commands from AimComponent--- need to get aim component ref...
 		ThisTank->AimAt(HitLocation);
 		ThisTank->Fire();
 	}

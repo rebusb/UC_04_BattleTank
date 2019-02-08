@@ -10,6 +10,14 @@
 class UTankBarrel;
 class UTankTurret;
 
+UENUM() enum class EFiringStatus : uint8
+{
+	Reloading,
+	Aiming,
+	Locked,
+	Unknown
+};
+
 UCLASS( ClassGroup=(TankParts), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
 {
@@ -30,6 +38,9 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+	// Tank firing status
+	UPROPERTY(BlueprintReadOnly, Category = "State")
+	EFiringStatus FireStatus = EFiringStatus::Locked;
 
 public:	
 	// Called every frame
