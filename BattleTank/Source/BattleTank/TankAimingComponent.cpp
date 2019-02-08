@@ -3,25 +3,31 @@
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
 #include "TankTurret.h"
+#include "Projectile.h"
+
 #include "Components/StaticMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Engine/World.h"
 
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
 {
-	PrimaryComponentTick.bCanEverTick = false;
+	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
 }
 
-void  UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
-{
-	BarrelComponent = BarrelToSet;
-}
 
-void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
+void UTankAimingComponent::InitializeAimingComponent(UTankBarrel * BarrelToSet, UTankTurret * TurretToSet)
 {
+	if(!BarrelToSet||!TurretToSet) 
+	{
+		UE_LOG(LogTemp, Error, TEXT("InitializeAimingComponent unable to InitializeAimingComponent"));
+		return;
+	}
+
+	BarrelComponent = BarrelToSet;
 	TurretComponent = TurretToSet;
 }
 
@@ -30,20 +36,13 @@ void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
+	//set inital LastFireTime so we are loaded on start
+	LastFireTime = GetWorld()->GetTimeSeconds();
 	
 }
 
 
-// Called every frame
-void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
-}
-
-void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
+void UTankAimingComponent::AimAt(FVector HitLocation)
 {
 	if (!BarrelComponent) { return; }
 
@@ -80,6 +79,32 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	MoveBarrelTowards(AimDirection);
 }
 
+void UTankAimingComponent::Fire()
+{
+	bool bIsReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTimeInSeconds;
+	if (BarrelComponent && bIsReloaded) {
+		//reset fire time
+		LastFireTime = GetWorld()->GetTimeSeconds();
+
+		// spawn projectile at end of barrel (muzzle socket)
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
+			ProjectileBP,
+			BarrelComponent->GetSocketLocation(FName("muzzle")),
+			BarrelComponent->GetSocketRotation(FName("muzzle"))
+			);
+
+		//May need to tell Projectile to ignore Barrel collision somehow
+		if (Projectile)
+		{
+			Projectile->LaunchProjectile(LaunchSpeed);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("%f: AImComponent %s unable to spawn Projectile"), *GetName());
+		}
+	}
+}
+
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	//Bring Tank barrel in line with aim direction
@@ -91,11 +116,9 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 	//rotate to azmuth
 	// rotate turret component
-	//convert yaw to spin direction... (or let Turret do that?)
 	TurretComponent->Spin(DeltaRotator.Yaw);
 
 	//rotate to elevation
-	//UE_LOG(LogTemp, Warning, TEXT("Rotator.Pitch %f"), DeltaRotator.Pitch);
 	BarrelComponent->Elevate(DeltaRotator.Pitch);	
 
 }

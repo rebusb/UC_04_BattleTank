@@ -9,6 +9,7 @@
 
 class UTankBarrel;
 class UTankTurret;
+class AProjectile;
 
 UENUM() enum class EFiringStatus : uint8
 {
@@ -27,14 +28,24 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
-	//set reference to TankBarrel component, sent from tank BP
-	void SetBarrelReference(UTankBarrel* BarrelToSet);
-	//set reference to TankTurret component, sent from tank BP
-	void SetTurretReference(UTankTurret* TurretToSet);
+	UFUNCTION(BlueprintCallable, Category="Initialize")
+	void InitializeAimingComponent(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
-	//TODO Add set turret reference
+	UFUNCTION(BlueprintCallable, Category="FiringSystem")
+		void AimAt(FVector HitLocation);
+
+	UFUNCTION(BlueprintCallable, Category="FiringSystem")
+		void Fire();
 
 protected:
+	//Aim and Firing system settings
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+		float LaunchSpeed = 10000.0; // cm/s // X
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+		float ReloadTimeInSeconds = 3.0; // X
+
+
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
@@ -44,9 +55,7 @@ protected:
 
 public:	
 	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-	void AimAt(FVector HitLocation, float LaunchSpeed);
+	//virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	//Bring Tank barrel in line with aim direction
 	void MoveBarrelTowards(FVector AimDirection);
@@ -54,5 +63,14 @@ public:
 private:
 	UTankBarrel* BarrelComponent = nullptr;
 	UTankTurret* TurretComponent = nullptr;
+
+	//reference to projectile
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+		TSubclassOf<AProjectile> ProjectileBP;   // lets try to keep this on tank? let tank decide projectile to launch...
+
+	//track firing system reload
+	float LastFireTime = 0.0;
+
+
 
 };
