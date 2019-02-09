@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// RebusStudios 2019
 
 #pragma once
 
@@ -18,11 +18,7 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
-protected:
-	// flag to check if tick() has fired to prevent log spamming
-	bool bHasTicked;
-	bool bHasPlayerTicked;
-	
+protected:	
 	UPROPERTY(EditDefaultsOnly)
 		float LineTraceRange = 1000000; //10km in cm
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "AimSystem")
@@ -32,8 +28,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "AimSystem")
 		float CrosshairYLocation = 0.33333;
 
-	//UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
-	//	void FoundAimingComponent(UTankAimingComponent* AimCompRef)
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+		void FoundAimingComponent(UTankAimingComponent* AimCompRef);
 
 public:
 	ATankPlayerController(const FObjectInitializer& ObjectInitializer);

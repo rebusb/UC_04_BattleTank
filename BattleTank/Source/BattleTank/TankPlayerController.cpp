@@ -4,7 +4,7 @@
 
 #include "TankPlayerController.h"
 #include "BattleTank.h"
-
+#include "TankAimingComponent.h"
 #include "Tank.h"
 #include "Engine/World.h"
 #include "GameFramework/GameMode.h"
@@ -27,12 +27,15 @@ void ATankPlayerController::BeginPlay()
 
 	AimStartOffset.Set(0.0, 0.0, 0.0);
 
-	bHasTicked = false; 
-	bHasPlayerTicked = false;
-
-	SetActorTickEnabled(true);
-
-	const ATank *Temp = GetControlledTank();
+	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	if (AimingComponent)
+	{
+		FoundAimingComponent(AimingComponent);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Player controller BeginPlay() did not find AimingComponent!!!"));
+	}
 }
 
 void ATankPlayerController::Tick(float DeltaTime)

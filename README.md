@@ -22,6 +22,24 @@ EThing MyProperty;
 refer to enums using EThing as type, EThing::Thin1 as value
 `EThing enumeratedValue = EThing::Thing2;`
 
-## Lectures as we go
-* L108 - creating the github repo, info on github markdown, commits
-	* L108b cloned to local repos - so easy!
+### Blueprint Implementable Event
+
+Will create a custom event available in Blueprints. Does not need definition in source code.
+
+```C++
+UFUNCTION(BlueprintImplementableEvent)
+ TheFunction(AType VarToSend);
+ 
+ TheFunction(VarToSend);
+
+//from TankPlayerController.h
+ 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+		void FoundAimingComponent(UTankAimingComponent* AimCompRef);
+		
+//from TankPlayerController.cpp
+	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	if (AimingComponent)
+	{
+		FoundAimingComponent(AimingComponent);
+	}
+ ```
