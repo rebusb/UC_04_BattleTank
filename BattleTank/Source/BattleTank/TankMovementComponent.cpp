@@ -7,6 +7,8 @@
 
 void UTankMovementComponent::InitializeTreads(UTankTrack * LeftTrackToSet, UTankTrack * RightTrackToSet)
 {
+	UE_LOG(LogTemp, Warning, TEXT("KITTY: TankMovementComponent in InitTreads"));
+
 	if (!LeftTrackToSet || !RightTrackToSet)
 	{
 		UE_LOG(LogTemp, Error, TEXT("TankMovementComponent unable to InitializeTreads!!!"));
@@ -59,5 +61,5 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 	IntendTurn(TurnThrow);
 
 	float MyRotation = GetOwner()->GetActorRotation().Yaw;
-	UE_LOG(LogTemp, Warning, TEXT("%s Turns %f, Yaw %f"), *Name, TurnThrow,MyRotation);
+	//UE_LOG(LogTemp, Warning, TEXT("%s Turns %f, Yaw %f"), *Name, TurnThrow,MyRotation);
 }

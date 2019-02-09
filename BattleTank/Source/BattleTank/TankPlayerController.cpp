@@ -16,11 +16,14 @@ ATankPlayerController::ATankPlayerController(const FObjectInitializer& ObjectIni
 {
 	//setting this to false does kill the tick()
 	PrimaryActorTick.bCanEverTick = true;
+	UE_LOG(LogTemp, Warning, TEXT("KITTY: TankPlayerController in constructor"));
+
 }
 
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	UE_LOG(LogTemp, Warning, TEXT("KITTY: TankPlayerController in BeginPlay"));
 
 	AimStartOffset.Set(0.0, 0.0, 0.0);
 

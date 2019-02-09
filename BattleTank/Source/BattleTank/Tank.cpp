@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// RebusStudios 2019
 
 #include "Tank.h"
 #include "TankAimingComponent.h"
@@ -11,7 +11,8 @@
 // Sets default values
 ATank::ATank()
 {	
-	UE_LOG(LogTemp, Warning, TEXT("Tank in constructor"));
+	auto TankName = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("KITTY: %s in constructor"),*TankName);
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
@@ -23,6 +24,8 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
+	auto TankName = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("KITTY: %s in BeginPlay CPP"), *TankName);
 
 	//get AimingComponent
 	AimingComponent = FindComponentByClass<UTankAimingComponent>();
