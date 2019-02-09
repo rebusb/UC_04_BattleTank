@@ -22,7 +22,7 @@ void UTankTrack::SetThrottle(float Throttle)
 		auto ForceLocation = GetComponentLocation();
 		auto OwningActor = GetOwner();
 
-		if (!OwningActor)
+		if (!ensure(OwningActor))
 		{
 			UE_LOG(LogTemp, Warning, TEXT("Track has no owner!"));
 			return;
@@ -32,7 +32,7 @@ void UTankTrack::SetThrottle(float Throttle)
 
 		auto TankRoot = Cast<UPrimitiveComponent>(OwningActor->GetRootComponent());
 
-		if (TankRoot)
+		if ensure(TankRoot)
 		{
 			TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
 		}

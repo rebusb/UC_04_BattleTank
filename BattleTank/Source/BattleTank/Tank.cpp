@@ -29,7 +29,7 @@ void ATank::BeginPlay()
 
 	//get AimingComponent
 	AimingComponent = FindComponentByClass<UTankAimingComponent>();
-	if (!AimingComponent)
+	if (!ensure(AimingComponent))
 	{
 		UE_LOG(LogTemp, Error, TEXT("Tank unable to find AimingComponent!!!"));
 	}
@@ -37,16 +37,17 @@ void ATank::BeginPlay()
 
 void ATank::AimAt(FVector HitLocation) {
 
-	if (!AimingComponent) { return; }
+	if (!ensure(AimingComponent)) { return; }
 	AimingComponent->AimAt(HitLocation);
 
 }
 
 void ATank::Fire() {
 
-	if (!AimingComponent) { return; }
+	//in Ben's code this is still implemented in Tank.cpp where I have it delegated
+	if (!ensure(AimingComponent)) { return; }
 	AimingComponent->Fire();
-
+	
 }
 
 

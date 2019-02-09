@@ -28,7 +28,7 @@ void ATankPlayerController::BeginPlay()
 	AimStartOffset.Set(0.0, 0.0, 0.0);
 
 	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-	if (AimingComponent)
+	if ensure(AimingComponent)
 	{
 		FoundAimingComponent(AimingComponent);
 	}
@@ -82,7 +82,7 @@ bool ATankPlayerController::GetSightRayHitLocation(OUT FVector& HitLocation) con
 	GetViewportSize(ViewportSizeX, ViewportSizeY);
 	FVector2D ScreenLocation((float(ViewportSizeX) * CrosshairXLocation), (float(ViewportSizeY) * CrosshairYLocation));
 
-	// Deproject the screen position of the crosshair to a world direction  !is factored into separate function in lesson code
+	// Deproject the screen position of the crosshair to a world direction. Is factored into separate function in lesson code
 	FVector WorldDirection, WorldLocation;
 	bool result = DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, WorldLocation, WorldDirection);
 	if (!result) { return false; }

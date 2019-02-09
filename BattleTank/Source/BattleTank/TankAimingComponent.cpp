@@ -15,14 +15,13 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
 	UE_LOG(LogTemp, Warning, TEXT("KITTY: TankAimingComp in constructor"));
 }
 
 
 void UTankAimingComponent::InitializeAimingComponent(UTankBarrel * BarrelToSet, UTankTurret * TurretToSet)
 {
-	if(!BarrelToSet||!TurretToSet) 
+	if(!ensure(BarrelToSet&&TurretToSet)) 
 	{
 		UE_LOG(LogTemp, Error, TEXT("InitializeAimingComponent unable to InitializeAimingComponent"));
 		return;
@@ -47,7 +46,7 @@ void UTankAimingComponent::BeginPlay()
 
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
-	if (!BarrelComponent) { return; }
+	if (!ensure(BarrelComponent)) { return; }
 
 	// get vector to launch shell, consider toggle high low as part of advanced game (ex. shot over mtns)
 	// OUT for resulting launch velocity
@@ -85,7 +84,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 void UTankAimingComponent::Fire()
 {
 	bool bIsReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTimeInSeconds;
-	if (BarrelComponent && bIsReloaded) {
+	if (ensure(BarrelComponent) && bIsReloaded) {
 		//reset fire time
 		LastFireTime = GetWorld()->GetTimeSeconds();
 
@@ -97,7 +96,7 @@ void UTankAimingComponent::Fire()
 			);
 
 		//May need to tell Projectile to ignore Barrel collision somehow
-		if (Projectile)
+		if ensure(Projectile)
 		{
 			Projectile->LaunchProjectile(LaunchSpeed);
 		}

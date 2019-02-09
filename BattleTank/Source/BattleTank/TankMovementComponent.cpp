@@ -9,7 +9,7 @@ void UTankMovementComponent::InitializeTreads(UTankTrack * LeftTrackToSet, UTank
 {
 	UE_LOG(LogTemp, Warning, TEXT("KITTY: TankMovementComponent in InitTreads"));
 
-	if (!LeftTrackToSet || !RightTrackToSet)
+	if (!ensure(LeftTrackToSet && RightTrackToSet))
 	{
 		UE_LOG(LogTemp, Error, TEXT("TankMovementComponent unable to InitializeTreads!!!"));
 		return;
@@ -23,7 +23,7 @@ void UTankMovementComponent::InitializeTreads(UTankTrack * LeftTrackToSet, UTank
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
 	
-	if (!TreadLeft||!TreadLeft) { 
+	if (!ensure(TreadLeft&&TreadLeft)) { 
 		UE_LOG(LogTemp, Warning, TEXT("Error in IntendMoveForward"));
 		return;
 	}
@@ -35,7 +35,7 @@ void UTankMovementComponent::IntendMoveForward(float Throw)
 void UTankMovementComponent::IntendTurn(float Throw)
 {
 	
-	if (!TreadLeft||!TreadLeft) {
+	if (!ensure(TreadLeft&&TreadLeft)) {
 		UE_LOG(LogTemp, Warning, TEXT("Error in IntendTurn"));
 		return; return; }
 	TreadLeft->SetThrottle(Throw);

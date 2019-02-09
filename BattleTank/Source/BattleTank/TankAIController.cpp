@@ -22,10 +22,11 @@ void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	//ThisTank attacks PlayerTank
 	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
 	auto PlayerTank = Cast<ATank>(PlayerController->GetPawn());
 	auto ThisTank = Cast<ATank>(GetPawn());
-	if (ThisTank&&PlayerTank)
+	if ensure(ThisTank&&PlayerTank)
 	{
 		//Move toward target
 		MoveToActor(PlayerTank, AcceptanceRadius);	//TODO check close enough radius
@@ -41,13 +42,5 @@ void ATankAIController::Tick(float DeltaTime)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("%s Unable to AttackPlayer"));
 	}
-
-
-	// Attack target
-	//AttackPlayer();
 }
 
-//void ATankAIController::AttackPlayer()
-//{
-//	
-//}
