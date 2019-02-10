@@ -7,10 +7,9 @@
 
 #include "TankAIController.generated.h"
 
-class ATank;
 
 /**
- * 
+ * Pathfinding movement calls and aiming toward player control
  */
 UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
@@ -22,9 +21,6 @@ private:
 	float AcceptanceRadius = 3000.0;	
 	
 	void BeginPlay() override;
-
-
 	void Tick(float DeltaTime) override;
 
-	//void AttackPlayer();
 };

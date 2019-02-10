@@ -19,3 +19,7 @@
 #include "Kismet/KismetSystemLibrary.h"
 
 		UKismetSystemLibrary::QuitGame(this, nullptr, EQuitPreference::Quit);
+
+		//logging for filters
+		auto TankName = GetName();
+		UE_LOG(LogTemp, Warning, TEXT("KITTY: %s in constructor"), *TankName);

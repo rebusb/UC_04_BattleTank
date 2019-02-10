@@ -7,7 +7,7 @@
 
 #include "TankPlayerController.generated.h" // generated.h must always be last header included
 
-class ATank;
+
 class UTankAimingComponent;
 
 /**
@@ -28,15 +28,12 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "AimSystem")
 		float CrosshairYLocation = 0.33333;
 
+	// This turns into a blueprint function/event - no need for definition in c++
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 		void FoundAimingComponent(UTankAimingComponent* AimCompRef);
 
 public:
 	ATankPlayerController(const FObjectInitializer& ObjectInitializer);
-
-	//Make controlled tank available to blueprints
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	ATank* GetControlledTank() const;
 
 	void BeginPlay() override;
 

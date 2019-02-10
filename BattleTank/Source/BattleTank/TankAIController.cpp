@@ -1,11 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAIController.h"
-
-#include "Tank.h"
+#include "TankAimingComponent.h"
 #include "Engine/World.h"
-
-
 
 //#include "BattleTank.h"
 
@@ -13,7 +10,6 @@
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("TankAIController %s BeginPlay()"),*(GetName()));
 
 }
 
@@ -24,23 +20,24 @@ void ATankAIController::Tick(float DeltaTime)
 
 	//ThisTank attacks PlayerTank
 	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
-	auto PlayerTank = Cast<ATank>(PlayerController->GetPawn());
-	auto ThisTank = Cast<ATank>(GetPawn());
-	if ensure(ThisTank&&PlayerTank)
+	auto PlayerPawn = PlayerController->GetPawn();
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+
+	if ensure(AimingComponent&&PlayerPawn)
 	{
 		//Move toward target
-		MoveToActor(PlayerTank, AcceptanceRadius);	//TODO check close enough radius
+		MoveToActor(PlayerPawn, AcceptanceRadius);	//TODO check close enough radius
 
 		// Aim toward target and fire
-		FVector HitLocation = PlayerTank->GetTargetLocation();
+		FVector HitLocation = PlayerPawn->GetTargetLocation();
 
 		//refac - how do we get these commands from AimComponent--- need to get aim component ref...
-		ThisTank->AimAt(HitLocation);
-		ThisTank->Fire();
+		AimingComponent->AimAt(HitLocation);
+		AimingComponent->Fire();
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("%s Unable to AttackPlayer"));
+		UE_LOG(LogTemp, Warning, TEXT("%s missing ThisTank or PlayerTank"));
 	}
 }
 

@@ -7,13 +7,7 @@
 
 void UTankMovementComponent::InitializeTreads(UTankTrack * LeftTrackToSet, UTankTrack * RightTrackToSet)
 {
-	UE_LOG(LogTemp, Warning, TEXT("KITTY: TankMovementComponent in InitTreads"));
-
-	if (!ensure(LeftTrackToSet && RightTrackToSet))
-	{
-		UE_LOG(LogTemp, Error, TEXT("TankMovementComponent unable to InitializeTreads!!!"));
-		return;
-	}
+	if (!ensure(LeftTrackToSet && RightTrackToSet)) {return;}
 
 	TreadLeft = LeftTrackToSet;
 	TreadRight = RightTrackToSet;
@@ -23,10 +17,7 @@ void UTankMovementComponent::InitializeTreads(UTankTrack * LeftTrackToSet, UTank
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
 	
-	if (!ensure(TreadLeft&&TreadLeft)) { 
-		UE_LOG(LogTemp, Warning, TEXT("Error in IntendMoveForward"));
-		return;
-	}
+	if (!ensure(TreadLeft&&TreadLeft)) {return;}
 	TreadLeft->SetThrottle(Throw);
 	TreadRight->SetThrottle(Throw);
 	//TODO tame double transform
@@ -35,9 +26,7 @@ void UTankMovementComponent::IntendMoveForward(float Throw)
 void UTankMovementComponent::IntendTurn(float Throw)
 {
 	
-	if (!ensure(TreadLeft&&TreadLeft)) {
-		UE_LOG(LogTemp, Warning, TEXT("Error in IntendTurn"));
-		return; return; }
+	if (!ensure(TreadLeft&&TreadLeft)) {return;}
 	TreadLeft->SetThrottle(Throw);
 	TreadRight->SetThrottle(-Throw);
 
@@ -61,5 +50,4 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 	IntendTurn(TurnThrow);
 
 	float MyRotation = GetOwner()->GetActorRotation().Yaw;
-	//UE_LOG(LogTemp, Warning, TEXT("%s Turns %f, Yaw %f"), *Name, TurnThrow,MyRotation);
 }

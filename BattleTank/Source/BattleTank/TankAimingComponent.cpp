@@ -14,8 +14,6 @@
 UTankAimingComponent::UTankAimingComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-
-	UE_LOG(LogTemp, Warning, TEXT("KITTY: TankAimingComp in constructor"));
 }
 
 
@@ -35,9 +33,6 @@ void UTankAimingComponent::InitializeAimingComponent(UTankBarrel * BarrelToSet, 
 void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	UE_LOG(LogTemp, Warning, TEXT("KITTY: TankAimingComp in BeginPlay"));
-
 	//set inital LastFireTime so we are loaded on start
 	LastFireTime = GetWorld()->GetTimeSeconds();
 	

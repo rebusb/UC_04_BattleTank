@@ -53,9 +53,6 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringStatus FireStatus = EFiringStatus::Locked;
 
-	// Called every frame
-	//virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
 	//Bring Tank barrel in line with aim direction
 	void MoveBarrelTowards(FVector AimDirection);
 		

@@ -27,12 +27,10 @@ void AProjectile::BeginPlay()
 void AProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void AProjectile::LaunchProjectile(float Speed)
 {
 	ProjectileMover->SetVelocityInLocalSpace(FVector::ForwardVector*Speed);
 	ProjectileMover->Activate(true);
-	UE_LOG(LogTemp, Warning, TEXT("Projectile Launch @%f cmps"), Speed);
 }

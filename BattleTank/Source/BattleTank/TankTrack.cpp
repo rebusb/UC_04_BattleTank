@@ -9,12 +9,7 @@ void UTankTrack::SetThrottle(float Throttle)
 
 	if (Throttle!=0.0)
 	{
-		auto TestCast = Cast<USceneComponent>(this);
-		if (!TestCast)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("%s Cast to USceneComponent failed!!"), *this->GetClass()->GetName());
-			return;
-		}
+
 		FVector ForwardVec = this->GetForwardVector();
 
 

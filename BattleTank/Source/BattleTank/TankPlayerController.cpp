@@ -5,7 +5,6 @@
 #include "TankPlayerController.h"
 #include "BattleTank.h"
 #include "TankAimingComponent.h"
-#include "Tank.h"
 #include "Engine/World.h"
 #include "GameFramework/GameMode.h"
 #include "DrawDebugHelpers.h"
@@ -27,7 +26,7 @@ void ATankPlayerController::BeginPlay()
 
 	AimStartOffset.Set(0.0, 0.0, 0.0);
 
-	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if ensure(AimingComponent)
 	{
 		FoundAimingComponent(AimingComponent);
@@ -46,25 +45,18 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 }
 
-ATank* ATankPlayerController::GetControlledTank() const
-{
-
-	ATank* TankPawn = Cast<ATank>(GetPawn());
-
-	return TankPawn;
-
-}
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!GetControlledTank()) {return;}
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent)) {return;}
 	
 	FVector HitLocation; // Out parameter - default to forward vector
 
 	if (GetSightRayHitLocation(HitLocation))
 	{
 		//  tell controlled tank to aim at this point
-		GetControlledTank()->AimAt(HitLocation);
+		AimingComponent->AimAt(HitLocation);
 	}
 	else
 	{
