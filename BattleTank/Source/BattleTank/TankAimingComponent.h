@@ -13,10 +13,10 @@ class AProjectile;
 
 UENUM() enum class EFiringStatus : uint8
 {
-	Reloading,
-	Aiming,
-	Locked,
-	Unknown
+	Reloading	UMETA(DisplayName="Reloading"),
+	Aiming	UMETA(DisplayName = "Aiming"),
+	Locked	UMETA(DisplayName = "Locked"),
+	Unknown	UMETA(DisplayName = "Unknown")
 };
 
 UCLASS( ClassGroup=(TankParts), meta=(BlueprintSpawnableComponent) )
@@ -51,7 +51,7 @@ protected:
 public:	
 	// Tank firing status
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFiringStatus FireStatus = EFiringStatus::Locked;
+	EFiringStatus FiringStatus = EFiringStatus::Reloading;
 
 	//Bring Tank barrel in line with aim direction
 	void MoveBarrelTowards(FVector AimDirection);
@@ -67,6 +67,13 @@ private:
 	//track firing system reload
 	float LastFireTime = 0.0;
 
+	//hold current aim direction
+	FVector AimDirection=FVector(0.0);
+
+	//Called every frame
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+	//Check current Barrel forward vector against AimDirection, true if Equals()
+	bool IsBarrelMoving();
 
 
 };
