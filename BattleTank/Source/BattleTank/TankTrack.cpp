@@ -4,6 +4,19 @@
 
 #include "Engine/World.h"
 
+UTankTrack::UTankTrack()
+{
+	PrimaryComponentTick.bCanEverTick = true;
+	UE_LOG(LogTemp, Warning, TEXT("KITTY: UTankTrack init"));
+}
+
+void UTankTrack::OnRegister()
+{
+	Super::OnRegister();
+	PrimaryComponentTick.bCanEverTick = true;
+
+}
+
 void UTankTrack::SetThrottle(float Throttle)
 {
 
@@ -39,6 +52,29 @@ void UTankTrack::SetThrottle(float Throttle)
 
 
 }
+
+void UTankTrack::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	// Correct for low friction physics slipping
+	//Get slippage
+	FVector BaseVector = GetRightVector();
+	FVector Velocity = GetComponentVelocity();
+	float Slippage = FVector::DotProduct(BaseVector,Velocity);
+	float Speed = Velocity.Size();
+	
+	UE_LOG(LogTemp, Warning, TEXT("Slippage: %f vs Speed: %f"), Slippage, Speed);
+
+	//calc compensating force
+	auto CorrectionAcceleration = -(Slippage / DeltaTime * BaseVector);
+
+	//apply force (per tread!) to tank (root)
+	auto TankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
+	auto CorrectionForce = (TankRoot->GetMass() * CorrectionAcceleration)/2.0; // averaged across two tracks
+	TankRoot->AddForce(CorrectionForce);
+}
+
+
 
 
 
