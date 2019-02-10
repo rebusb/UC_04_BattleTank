@@ -78,11 +78,11 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 
 void UTankAimingComponent::Fire()
 {
+	if(!ensure(ProjectileBP)) { return; }
 	bool bIsReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTimeInSeconds;
 	if (ensure(BarrelComponent) && bIsReloaded) {
 		//reset fire time
 		LastFireTime = GetWorld()->GetTimeSeconds();
-
 		// spawn projectile at end of barrel (muzzle socket)
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBP,
