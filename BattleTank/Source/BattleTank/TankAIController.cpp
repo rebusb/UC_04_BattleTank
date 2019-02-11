@@ -33,7 +33,11 @@ void ATankAIController::Tick(float DeltaTime)
 
 		//refac - how do we get these commands from AimComponent--- need to get aim component ref...
 		AimingComponent->AimAt(HitLocation);
-		AimingComponent->Fire();
+
+		if (AimingComponent->GetFiringState() == EFiringState::Locked)
+		{
+			AimingComponent->Fire();
+		}
 	}
 	else
 	{

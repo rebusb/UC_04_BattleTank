@@ -18,6 +18,10 @@ UTankAimingComponent::UTankAimingComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
+EFiringState UTankAimingComponent::GetFiringState() const
+{
+	return FiringState;
+}
 
 void UTankAimingComponent::InitializeAimingComponent(UTankBarrel * BarrelToSet, UTankTurret * TurretToSet)
 {
@@ -40,31 +44,32 @@ void UTankAimingComponent::BeginPlay()
 	
 }
 
+
 void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
 {
 
 	if ((GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTimeInSeconds)
 	{
-		FiringStatus = EFiringStatus::Reloading;
+		FiringState = EFiringState::Reloading;
 	}
 	else
 	{
 		if (IsBarrelMoving())
 		{
-			FiringStatus = EFiringStatus::Aiming;
+			FiringState = EFiringState::Aiming;
 		}
 		else
 		{
-			FiringStatus = EFiringStatus::Locked;
+			FiringState = EFiringState::Locked;
 		}
 	}
 
-	//UE_LOG(LogTemp, Warning, TEXT("FiringStatus:%i"),FiringStatus);
+	//UE_LOG(LogTemp, Warning, TEXT("FiringState:%i"),FiringState);
 }
 
 bool UTankAimingComponent::IsBarrelMoving()
 {
-	float Tolerance = 0.01;
+	float Tolerance = 0.001;
 	if (!ensure(BarrelComponent)) { return false; }
 	auto BarrelVector = BarrelComponent->GetForwardVector().GetSafeNormal();
 	FVector VDiff = BarrelVector - AimDirection;
@@ -118,7 +123,7 @@ void UTankAimingComponent::Fire()
 {
 	if (!ensure(ProjectileBP)) { return; }
 
-	if (FiringStatus!=EFiringStatus::Reloading) {
+	if (FiringState!=EFiringState::Reloading) {
 		if (!ensure(BarrelComponent)) { return; }
 		// spawn projectile at end of barrel (muzzle socket)
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(

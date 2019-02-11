@@ -16,10 +16,14 @@ class BATTLETANK_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
 
-private:
-	//radius AI stops moving toward player
-	float AcceptanceRadius = 3000.0;	
+public:
 	
+protected:
+	//radius AI stops moving toward player
+	UPROPERTY(EditDefaultsOnly, Category="Setup")
+	float AcceptanceRadius = 5000.0;	
+
+private:
 	void BeginPlay() override;
 	void Tick(float DeltaTime) override;
 

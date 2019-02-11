@@ -11,7 +11,7 @@ class UTankBarrel;
 class UTankTurret;
 class AProjectile;
 
-UENUM() enum class EFiringStatus : uint8
+UENUM() enum class EFiringState : uint8
 {
 	Reloading	UMETA(DisplayName="Reloading"),
 	Aiming	UMETA(DisplayName = "Aiming"),
@@ -49,9 +49,9 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 public:	
-	// Tank firing status
-	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFiringStatus FiringStatus = EFiringStatus::Reloading;
+	//getter for looking up FiringState
+	UFUNCTION(BlueprintCallable, Category = "FiringSystem")
+	EFiringState GetFiringState() const;
 
 	//Bring Tank barrel in line with aim direction
 	void MoveBarrelTowards(FVector AimDirection);
@@ -59,6 +59,10 @@ public:
 private:
 	UTankBarrel* BarrelComponent = nullptr;
 	UTankTurret* TurretComponent = nullptr;
+
+	// Tank firing status
+	
+	EFiringState FiringState = EFiringState::Reloading;
 
 	//reference to projectile
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
