@@ -41,26 +41,30 @@ void UTankAimingComponent::BeginPlay()
 	Super::BeginPlay();
 	//set inital LastFireTime so we are loading on start
 	LastFireTime = GetWorld()->GetTimeSeconds();
+	AmmoCount = InitialAmmoCount;
+	FiringState = EFiringState::Reloading;
 	
 }
 
 
 void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
 {
-
-	if ((GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTimeInSeconds)
+	if (FiringState != EFiringState::Empty) //TODO pick up ammo when empty?S
 	{
-		FiringState = EFiringState::Reloading;
-	}
-	else
-	{
-		if (IsBarrelMoving())
+		if ((GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTimeInSeconds)
 		{
-			FiringState = EFiringState::Aiming;
+			FiringState = EFiringState::Reloading;
 		}
 		else
 		{
-			FiringState = EFiringState::Locked;
+			if (IsBarrelMoving())
+			{
+				FiringState = EFiringState::Aiming;
+			}
+			else
+			{
+				FiringState = EFiringState::Locked;
+			}
 		}
 	}
 
@@ -123,20 +127,32 @@ void UTankAimingComponent::Fire()
 {
 	if (!ensure(ProjectileBP)) { return; }
 
-	if (FiringState!=EFiringState::Reloading) {
+	if (FiringState!=EFiringState::Empty&&FiringState!=EFiringState::Reloading) {
 		if (!ensure(BarrelComponent)) { return; }
 		// spawn projectile at end of barrel (muzzle socket)
-		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
-			ProjectileBP,
-			BarrelComponent->GetSocketLocation(FName("muzzle")),
-			BarrelComponent->GetSocketRotation(FName("muzzle"))
-			);
-		// TODO: May need to tell Projectile to ignore Barrel collision somehow
-		if (!ensure(Projectile)) { return; }
-		Projectile->LaunchProjectile(LaunchSpeed);
-		//reset fire time
-		LastFireTime = GetWorld()->GetTimeSeconds();
+	
+			auto Projectile = GetWorld()->SpawnActor<AProjectile>(
+				ProjectileBP,
+				BarrelComponent->GetSocketLocation(FName("muzzle")),
+				BarrelComponent->GetSocketRotation(FName("muzzle"))
+				);
+			// TODO: May need to tell Projectile to ignore Barrel collision somehow
+			if (!ensure(Projectile)) { return; }
+			Projectile->LaunchProjectile(LaunchSpeed);
+			//reset fire time
+			LastFireTime = GetWorld()->GetTimeSeconds();
+			AmmoCount--;
+	
+		if(AmmoCount<=0)
+		{
+			FiringState = EFiringState::Empty;
+		}
 	}
+}
+
+int UTankAimingComponent::GetAmmoCount() const
+{
+	return AmmoCount;
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)

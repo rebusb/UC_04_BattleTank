@@ -16,6 +16,7 @@ UENUM() enum class EFiringState : uint8
 	Reloading	UMETA(DisplayName="Reloading"),
 	Aiming	UMETA(DisplayName = "Aiming"),
 	Locked	UMETA(DisplayName = "Locked"),
+	Empty UMETA(DisplayName = "Empty"),
 	Unknown	UMETA(DisplayName = "Unknown")
 };
 
@@ -37,13 +38,20 @@ public:
 	UFUNCTION(BlueprintCallable, Category="FiringSystem")
 		void Fire();
 
+	UFUNCTION(BlueprintCallable, Category = "FiringSystem")
+		int GetAmmoCount() const;
+
 protected:
 	//Aim and Firing system settings
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-		float LaunchSpeed = 10000.0; // cm/s // X
+		float LaunchSpeed = 10000.0; // cm/s
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-		float ReloadTimeInSeconds = 3.0; // X
+		float ReloadTimeInSeconds = 3.0; 
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+		int InitialAmmoCount = 3; 
+		
 
 
 	// Called when the game starts
@@ -60,13 +68,14 @@ private:
 	UTankBarrel* BarrelComponent = nullptr;
 	UTankTurret* TurretComponent = nullptr;
 
+	int AmmoCount = 0;
 	// Tank firing status
 	
 	EFiringState FiringState = EFiringState::Reloading;
 
 	//reference to projectile
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-		TSubclassOf<AProjectile> ProjectileBP;   // lets try to keep this on tank? let tank decide projectile to launch...
+		TSubclassOf<AProjectile> ProjectileBP;   
 
 	//track firing system reload
 	float LastFireTime = 0.0;
