@@ -145,7 +145,25 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 	//rotate to azmuth
 	// rotate turret component
-	TurretComponent->Spin(DeltaRotator.Yaw);
+	float Spin = DeltaRotator.Yaw;
+	/*if(Spin<-180.0)
+	{
+		Spin += 360.0;
+	}
+	if (Spin>180.0)
+	{
+		Spin -= 360.0;
+	}
+	UE_LOG(LogTemp, Warning, TEXT("Turret given Yaw %f spin to %f"),DeltaRotator.Yaw, Spin);*/
+	// so spin to amount... if abs(spin)>180 
+	if(FMath::Abs(Spin)>180)
+	{
+		TurretComponent->Spin(-Spin);
+	}
+	else
+	{
+		TurretComponent->Spin(Spin);
+	}
 
 	//rotate to elevation
 	BarrelComponent->Elevate(DeltaRotator.Pitch);	
