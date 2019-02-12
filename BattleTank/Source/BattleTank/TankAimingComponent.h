@@ -39,7 +39,7 @@ public:
 		void Fire();
 
 	UFUNCTION(BlueprintCallable, Category = "FiringSystem")
-		int GetAmmoCount() const;
+		int32 GetAmmoCount() const;
 
 protected:
 	//Aim and Firing system settings
@@ -50,7 +50,7 @@ protected:
 		float ReloadTimeInSeconds = 3.0; 
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-		int InitialAmmoCount = 3; 
+		int32 InitialAmmoCount = 3; 
 		
 
 
@@ -68,7 +68,7 @@ private:
 	UTankBarrel* BarrelComponent = nullptr;
 	UTankTurret* TurretComponent = nullptr;
 
-	int AmmoCount = 0;
+	int32 AmmoCount = 0;
 	// Tank firing status
 	
 	EFiringState FiringState = EFiringState::Reloading;
