@@ -61,6 +61,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "FiringSystem")
 	EFiringState GetFiringState() const;
 
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	FString GetAmmoAsString();
+
+
 	//Bring Tank barrel in line with aim direction
 	void MoveBarrelTowards(FVector AimDirection);
 		

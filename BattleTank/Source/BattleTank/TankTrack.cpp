@@ -52,7 +52,7 @@ void UTankTrack::ApplySidewaysForce(float DeltaTime)
 	TankRoot->AddForce(CorrectionForce);
 }
 
-
+//Component OnHit() event delegate implementation
 void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
 	DriveTrack();

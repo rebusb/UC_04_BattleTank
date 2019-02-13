@@ -34,6 +34,7 @@ public:
 private:
 	float CurrentThrottle = 0.0;
 
+	//Component OnHit() event delegate declared
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 };

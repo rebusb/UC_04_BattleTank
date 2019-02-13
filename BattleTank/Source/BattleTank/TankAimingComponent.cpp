@@ -155,6 +155,8 @@ int32 UTankAimingComponent::GetAmmoCount() const
 	return AmmoCount;
 }
 
+
+
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	//Bring Tank barrel in line with aim direction
@@ -189,4 +191,14 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	//rotate to elevation
 	BarrelComponent->Elevate(DeltaRotator.Pitch);	
 
+}
+
+FString UTankAimingComponent::GetAmmoAsString()
+{
+	
+	FString AmmoString = FString();
+	for (int i = 0;i<AmmoCount;i++) {
+		AmmoString += ".";
+	}
+	return AmmoString;
 }
