@@ -39,10 +39,15 @@ private:
 		UParticleSystemComponent* ImpactBlast = nullptr;
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 		URadialForceComponent* BlastForce = nullptr;
+	//Timer properties
+	FTimerHandle SelfDestructTimer;
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+		float SelfDestructDelay = 2.0;
 
 	//Component OnHit() event delegate declared
 	UFUNCTION()
 		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 
-
+	UFUNCTION()
+		void SelfDestruct();
 };

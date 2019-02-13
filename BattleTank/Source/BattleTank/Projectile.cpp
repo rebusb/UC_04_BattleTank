@@ -52,6 +52,8 @@ void AProjectile::BeginPlay()
 	Super::BeginPlay();
 	//CollisionMesh registers OnHit() delegate
 	CollisionMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
+
+	
 }
 
 
@@ -70,5 +72,17 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 	ImpactBlast->ActivateSystem();
 	// send blast force
 	BlastForce->FireImpulse();
+	//destroy collider nicely
+	SetRootComponent(ImpactBlast);
+	CollisionMesh->DestroyComponent();
+
+	//initiate self destruct via timer
+	GetWorld()->GetTimerManager().SetTimer(SelfDestructTimer, this, &AProjectile::SelfDestruct, SelfDestructDelay, false);
 
 }
+
+void AProjectile::SelfDestruct()
+{
+	this->Destroy();
+}
+
