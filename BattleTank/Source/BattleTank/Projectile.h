@@ -30,6 +30,9 @@ protected:
 
 private:
 
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+		float ProjectileDamage = 5.0;
+
 	UProjectileMovementComponent* ProjectileMover = nullptr;
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 		UStaticMeshComponent* CollisionMesh = nullptr;

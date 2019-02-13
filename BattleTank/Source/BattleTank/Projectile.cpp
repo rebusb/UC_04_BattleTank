@@ -6,6 +6,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Engine/World.h"
+#include "Kismet/GameplayStatics.h"
 
 
 // Sets default values
@@ -70,14 +71,28 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 	LaunchBlast->DeactivateSystem();
 	// activate impact fx
 	ImpactBlast->ActivateSystem();
-	// send blast force
+	
+	// send blast force and blast damage
 	BlastForce->FireImpulse();
+	bool DidDamage = UGameplayStatics::ApplyRadialDamage(
+		this,
+		ProjectileDamage,
+		GetActorLocation(),
+		BlastForce->Radius,
+		UDamageType::StaticClass(),
+		TArray<AActor*>(),
+		this 
+	);
+
+	
 	//destroy collider nicely
 	SetRootComponent(ImpactBlast);
 	CollisionMesh->DestroyComponent();
 
 	//initiate self destruct via timer
 	GetWorld()->GetTimerManager().SetTimer(SelfDestructTimer, this, &AProjectile::SelfDestruct, SelfDestructDelay, false);
+
+
 
 }
 
