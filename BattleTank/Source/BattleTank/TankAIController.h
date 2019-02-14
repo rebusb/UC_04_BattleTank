@@ -26,5 +26,10 @@ protected:
 private:
 	void BeginPlay() override;
 	void Tick(float DeltaTime) override;
+	//override to set delegate binding when we know we have a tank that will broadcast
+	void SetPawn(APawn* InPawn) override;
+	//delegate method
+	UFUNCTION()
+		void TankDidDie();
 
 };

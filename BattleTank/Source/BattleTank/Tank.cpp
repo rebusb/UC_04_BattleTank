@@ -12,10 +12,15 @@ ATank::ATank()
 
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-
+	
 }
 
+void ATank::BeginPlay()
+{
+	Super::BeginPlay();
+	CurrentHealth = InitialHealth;
 
+}
 float ATank::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)
 {
 	// calling super will return damage with falloff (if set)
@@ -25,8 +30,14 @@ float ATank::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEve
 	CurrentHealth -= DamageToApply;
 	if (CurrentHealth <= 0)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Tank %s died!"), *GetName());
+		OnDeath.Broadcast();
 	}
 
 	return (float)DamageToApply;
+}
+
+float ATank::GetHealthPercent() const {
+
+	return ((float)CurrentHealth/(float)InitialHealth);
+
 }

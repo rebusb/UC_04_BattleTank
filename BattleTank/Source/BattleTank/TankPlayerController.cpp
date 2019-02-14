@@ -9,6 +9,8 @@
 #include "GameFramework/GameMode.h"
 #include "DrawDebugHelpers.h"
 
+#include "Tank.h"
+
 
 //experiment to see if can kill tick...
 ATankPlayerController::ATankPlayerController(const FObjectInitializer& ObjectInitializer):Super(ObjectInitializer)
@@ -16,6 +18,18 @@ ATankPlayerController::ATankPlayerController(const FObjectInitializer& ObjectIni
 	//setting this to false does kill the tick()
 	PrimaryActorTick.bCanEverTick = true;
 	UE_LOG(LogTemp, Warning, TEXT("KITTY: TankPlayerController in constructor"));
+
+}
+
+void ATankPlayerController::SetPawn(APawn *PawnToSet)
+{
+	Super::SetPawn(PawnToSet);
+	UE_LOG(LogTemp, Warning, TEXT("PlayerController SetPawn"));
+	auto TankPawn = Cast<ATank>(PawnToSet);
+	if (ensure(TankPawn))
+	{
+		TankPawn->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::TankDidDie);
+	}
 
 }
 
@@ -99,5 +113,8 @@ bool ATankPlayerController::GetSightRayHitLocation(OUT FVector& HitLocation) con
 
 }
 
-
+void ATankPlayerController::TankDidDie()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Player Controller says My Tank is Dead!"));
+}
 

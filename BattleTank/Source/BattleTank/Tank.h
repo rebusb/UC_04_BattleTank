@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "Delegate.h"
 
 #include "Tank.generated.h"
 
@@ -11,6 +12,8 @@
 
 
 
+//Declare delegate type
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);
 
 
 UCLASS()
@@ -22,15 +25,22 @@ public:
 	//Called by Engine when actor damage is delt
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
+	UFUNCTION(BlueprintPure, Category = "Damage")
+		float GetHealthPercent() const;
+
+	FTankDelegate OnDeath;
+
 protected:
-
-
+	void BeginPlay() override;
 
 private:
 	// Sets default values for this pawn's properties
 	ATank();
 
+	// track damage via health countdown
+	int32 CurrentHealth;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Damage")
-		int32 CurrentHealth = 50;
+		int32 InitialHealth = 20;
 
 };

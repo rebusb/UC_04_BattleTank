@@ -32,6 +32,9 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 		void FoundAimingComponent(UTankAimingComponent* AimCompRef);
 
+	UFUNCTION()
+		void TankDidDie();
+
 public:
 	ATankPlayerController(const FObjectInitializer& ObjectInitializer);
 
@@ -41,6 +44,9 @@ public:
 	//	void PlayerTick(float DeltaTime) override;
 
 private:
+	//SetPawn override safe place to set Tank delegate
+	void SetPawn(APawn *PawnToSet) override;
+
 	//Start moving barrel toward aim crosshair
 	void AimTowardsCrosshair();
 

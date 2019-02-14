@@ -4,6 +4,8 @@
 #include "TankAimingComponent.h"
 #include "Engine/World.h"
 
+#include "Tank.h"
+
 //#include "BattleTank.h"
 
 
@@ -13,6 +15,16 @@ void ATankAIController::BeginPlay()
 
 }
 
+void ATankAIController::SetPawn(APawn *PawnToSet)
+{
+	Super::SetPawn(PawnToSet);
+	auto TankPawn = Cast<ATank>(PawnToSet);
+	if (TankPawn)
+	{
+		TankPawn->OnDeath.AddUniqueDynamic(this, &ATankAIController::TankDidDie);
+	}
+
+}
 
 void ATankAIController::Tick(float DeltaTime)
 {
@@ -45,3 +57,7 @@ void ATankAIController::Tick(float DeltaTime)
 	}
 }
 
+void ATankAIController::TankDidDie()
+{
+	UE_LOG(LogTemp, Warning, TEXT("AI controller says My AI Tank died!"));
+}
