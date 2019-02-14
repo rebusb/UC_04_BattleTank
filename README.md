@@ -43,3 +43,27 @@ UFUNCTION(BlueprintImplementableEvent)
 		FoundAimingComponent(AimingComponent);
 	}
  ```
+### Delegates
+#### Implementing Dynamic Multicast Delegates
+
+On Broadcast Class:
+- create Delegate Subject Name Type with macro call above class declaration
+  - `DECLARE_DYNAMIC_MULTICAST_DELEGATE(FSubjectNameType);`
+- declare DelegateBroadcaster as NameType in class
+  - `FSubjectNameType OnEvent;`
+- broadcast event
+  - `OnEvent.Broadcast();`
+
+On Receiver Class:
+- Declare Delegate method
+  - `UFUNCTION() void OnEventDelegate();`
+- Register Delegate method in source
+  - `BroadcastClass->OnEvent.AddUniqueDynamic(this, &ReceiverClass::OnEventDelegate);`
+  
+There are a multitude of DECLARE_DELEGATE_{paramsType}(...) signatures to cover:
+DELEGATEs, DYNAMIC_DELEGATEs, MULTICAST_DELEGATEs, DYNAMIC_MULTICLASS_DELEGATES with or without ReturnValues (RetVal) and between zero and 8 passed parameters.
+
+###### ex. 
+`<RetVal> Function(); ==> DECLARE_DELEGATE_RetVal(RetValType,DelegateName); `
+
+`Function(<Param1>, Param2>); ==> DECLARE_DELEGATE(DelegateName,Param1Type,Param2Type);`
