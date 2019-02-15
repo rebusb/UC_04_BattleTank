@@ -21,27 +21,23 @@ AProjectile::AProjectile()
 		SetRootComponent(CollisionMesh);
 		CollisionMesh->SetNotifyRigidBodyCollision(true);
 		CollisionMesh->ToggleVisibility(true);
-		
 	}
 	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Launch Blast"));
 	if (ensure(LaunchBlast))
 	{
 		LaunchBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	}
-
 	ImpactBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Impact Blast"));
 	if (ensure(ImpactBlast))
 	{
 		ImpactBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 		ImpactBlast->SetAutoActivate(false);
 	}
-
 	ProjectileMover = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Movement Component"));
 	if ensure(ProjectileMover)
 	{
 		ProjectileMover->SetAutoActivate(false);
 	}
-
 	BlastForce = CreateDefaultSubobject<URadialForceComponent>(FName("Blast Force"));
 	BlastForce->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	
@@ -58,9 +54,9 @@ void AProjectile::BeginPlay()
 }
 
 
-void AProjectile::LaunchProjectile(float Speed)
+void AProjectile::LaunchProjectile(const float LaunchSpeed)
 {
-	ProjectileMover->SetVelocityInLocalSpace(FVector::ForwardVector*Speed);
+	ProjectileMover->SetVelocityInLocalSpace(FVector::ForwardVector*LaunchSpeed);
 	ProjectileMover->Activate(true);
 }
 
@@ -70,8 +66,7 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 	// on hit deactivate launch fx
 	LaunchBlast->DeactivateSystem();
 	// activate impact fx
-	ImpactBlast->ActivateSystem();
-	
+	ImpactBlast->ActivateSystem();	
 	// send blast force and blast damage
 	BlastForce->FireImpulse();
 	bool DidDamage = UGameplayStatics::ApplyRadialDamage(
@@ -82,18 +77,12 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 		UDamageType::StaticClass(),
 		TArray<AActor*>(),
 		this 
-	);
-
-	
+	);	
 	//destroy collider nicely
 	SetRootComponent(ImpactBlast);
 	CollisionMesh->DestroyComponent();
-
 	//initiate self destruct via timer
 	GetWorld()->GetTimerManager().SetTimer(SelfDestructTimer, this, &AProjectile::SelfDestruct, SelfDestructDelay, false);
-
-
-
 }
 
 void AProjectile::SelfDestruct()

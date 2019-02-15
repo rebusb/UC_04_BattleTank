@@ -60,4 +60,7 @@ void ATankAIController::Tick(float DeltaTime)
 void ATankAIController::TankDidDie()
 {
 	UE_LOG(LogTemp, Warning, TEXT("AI controller says My AI Tank died!"));
+	GetPawn()->DetachFromControllerPendingDestroy();
+	//TODO have AI tank go away, replace with exploding tank (animation to static tank object)
+
 }

@@ -116,5 +116,8 @@ bool ATankPlayerController::GetSightRayHitLocation(OUT FVector& HitLocation) con
 void ATankPlayerController::TankDidDie()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Player Controller says My Tank is Dead!"));
+	//StartSpectatingOnly();   //TODO make more robust exit from tank on death... flag it, and stop firing, aiming, moving based on flag
+	//DetachFromPawn();
+	//TODO new game countdown, escape to menu
 }
 

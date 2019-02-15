@@ -9,9 +9,6 @@
 #include "Tank.generated.h"
 
 
-
-
-
 //Declare delegate type
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);
 
@@ -25,9 +22,11 @@ public:
 	//Called by Engine when actor damage is delt
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
+	//Used in blueprint to display health
 	UFUNCTION(BlueprintPure, Category = "Damage")
-		float GetHealthPercent() const;
+		const float GetHealthPercent();
 
+	//Broadcast (to controllers) when health is gone
 	FTankDelegate OnDeath;
 
 protected:

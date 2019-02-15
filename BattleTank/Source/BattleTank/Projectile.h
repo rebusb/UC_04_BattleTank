@@ -19,7 +19,8 @@ public:
 	// Sets default values for this actor's properties
 	AProjectile();
 
-	void LaunchProjectile(float Speed);
+	// using projectile movement comp' send projectile flying
+	void LaunchProjectile(const float LaunchSpeed);
 
 protected:
 	// Called when the game starts or when spawned
@@ -29,10 +30,11 @@ protected:
 	float ProjectileSpeed = 5000.0;*/
 
 private:
-
+	// damage system TODO different damages for different class tanks
 	UPROPERTY(EditDefaultsOnly, Category = "Damage")
 		float ProjectileDamage = 5.0;
 
+	// our registered components
 	UProjectileMovementComponent* ProjectileMover = nullptr;
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 		UStaticMeshComponent* CollisionMesh = nullptr;
@@ -50,7 +52,7 @@ private:
 	//Component OnHit() event delegate declared
 	UFUNCTION()
 		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
-
+	//Called by timer delay after impact
 	UFUNCTION()
 		void SelfDestruct();
 };
