@@ -23,6 +23,7 @@ ATankPlayerController::ATankPlayerController(const FObjectInitializer& ObjectIni
 
 void ATankPlayerController::SetPawn(APawn *PawnToSet)
 {
+	if (!PawnToSet) { return; }
 	Super::SetPawn(PawnToSet);
 	UE_LOG(LogTemp, Warning, TEXT("PlayerController SetPawn"));
 	auto TankPawn = Cast<ATank>(PawnToSet);

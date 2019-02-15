@@ -17,6 +17,7 @@ void ATankAIController::BeginPlay()
 
 void ATankAIController::SetPawn(APawn *PawnToSet)
 {
+	if (!PawnToSet) { return; }
 	Super::SetPawn(PawnToSet);
 	auto TankPawn = Cast<ATank>(PawnToSet);
 	if (TankPawn)
@@ -60,6 +61,7 @@ void ATankAIController::Tick(float DeltaTime)
 void ATankAIController::TankDidDie()
 {
 	UE_LOG(LogTemp, Warning, TEXT("AI controller says My AI Tank died!"));
+	if (!GetPawn()) { return; }
 	GetPawn()->DetachFromControllerPendingDestroy();
 	//TODO have AI tank go away, replace with exploding tank (animation to static tank object)
 
