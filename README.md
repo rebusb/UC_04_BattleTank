@@ -43,6 +43,17 @@ UFUNCTION(BlueprintImplementableEvent)
 		FoundAimingComponent(AimingComponent);
 	}
  ```
+### Blueprint Spawnable Component
+
+Creating Actor components that are available in Blueprint Editor. 
+- Inherit from U*Componet class
+- declare as:  
+    `UCLASS(ClassGroup=("SectionName"), meta=(BlueprintSpawnableComponent)) ... `
+
+note: The comment above the class declaration will appear as tooltip in editor.
+
+
+
 ### Delegates
 #### Implementing Dynamic Multicast Delegates
 
