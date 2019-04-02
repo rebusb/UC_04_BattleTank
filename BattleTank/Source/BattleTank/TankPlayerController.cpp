@@ -102,7 +102,7 @@ bool ATankPlayerController::GetSightRayHitLocation(OUT FVector& HitLocation) con
 		OutHit,
 		WorldLocation,
 		(WorldLocation + WorldDirection * LineTraceRange), 
-		(ECollisionChannel::ECC_Visibility)
+		(ECollisionChannel::ECC_Camera)
 		);
 
 
