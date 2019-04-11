@@ -3,17 +3,15 @@
 #include "SprungWheel.h"
 #include "PhysicsEngine/PhysicsConstraintComponent.h"
 #include "Components/SphereComponent.h"
+#include "Engine/World.h"
 
-void ASprungWheel::AddDrivingForce(float ForceMagnitude)
-{
-	WheelComponent->AddForce(SprungAxleComponent->GetForwardVector()*ForceMagnitude);
-}
 
 // Sets default values
 ASprungWheel::ASprungWheel()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.TickGroup = TG_PostPhysics;
 
 
 	SpringConstraint = CreateDefaultSubobject<UPhysicsConstraintComponent>(FName("SpringConstraint"));
@@ -94,6 +92,9 @@ void ASprungWheel::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	WheelComponent->SetNotifyRigidBodyCollision(true);
+	WheelComponent->OnComponentHit.AddDynamic(this, &ASprungWheel::OnHit);
+
 	SetComponents();
 	
 }
@@ -102,6 +103,27 @@ void ASprungWheel::BeginPlay()
 void ASprungWheel::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	
+	if (GetWorld()->TickGroup == TG_PostPhysics)
+	{
+		// reset applied force post physics
+		TotalForceMagnitude = 0;
+	}
 }
 
+void  ASprungWheel::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	//apply current force magnitude when in contact
+	ApplyForce();
+}
+
+
+void ASprungWheel::AddDrivingForce(float ForceMagnitude)
+{
+	TotalForceMagnitude += ForceMagnitude;
+}
+
+void ASprungWheel::ApplyForce()
+{
+	WheelComponent->AddForce(SprungAxleComponent->GetForwardVector()*TotalForceMagnitude);
+}

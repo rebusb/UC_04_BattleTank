@@ -25,6 +25,8 @@ public:
 	UFUNCTION()
 		void AddDrivingForce(float ForceMagnitude);
 
+
+
 	//UPROPERTY(EditAnywhere, Category = "Setup")
 	//	float BaseMass = 10;
 
@@ -49,6 +51,8 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 		UPhysicsConstraintComponent* AxleWheelConstraint = nullptr;
 
+	//sum forces applied to wheels
+	float TotalForceMagnitude = 0;
 
 	// Sets default values for this actor's properties
 	ASprungWheel();
@@ -56,6 +60,12 @@ public:
 private:
 	//connect constraint to components at attachement
 	void SetComponents();
+
+	UFUNCTION()
+		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+	//tick calls to move tank via this wheel
+	void ApplyForce();
 
 protected:
 	// Called when the game starts or when spawned
