@@ -17,7 +17,7 @@ ATankPlayerController::ATankPlayerController(const FObjectInitializer& ObjectIni
 {
 	//setting this to false does kill the tick()
 	PrimaryActorTick.bCanEverTick = true;
-	UE_LOG(LogTemp, Warning, TEXT("KITTY: TankPlayerController in constructor"));
+//UE_LOG(LogTemp, Warning, TEXT("KITTY: TankPlayerController in constructor"));
 
 }
 
@@ -25,7 +25,7 @@ void ATankPlayerController::SetPawn(APawn *PawnToSet)
 {
 	if (!PawnToSet) { return; }
 	Super::SetPawn(PawnToSet);
-	UE_LOG(LogTemp, Warning, TEXT("PlayerController SetPawn"));
+//	UE_LOG(LogTemp, Warning, TEXT("PlayerController SetPawn"));
 	auto TankPawn = Cast<ATank>(PawnToSet);
 	if (ensure(TankPawn))
 	{
@@ -37,7 +37,7 @@ void ATankPlayerController::SetPawn(APawn *PawnToSet)
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("KITTY: TankPlayerController in BeginPlay"));
+//	UE_LOG(LogTemp, Warning, TEXT("KITTY: TankPlayerController in BeginPlay"));
 
 	AimStartOffset.Set(0.0, 0.0, 0.0);
 
@@ -48,7 +48,7 @@ void ATankPlayerController::BeginPlay()
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Player controller BeginPlay() did not find AimingComponent!!!"));
+//		UE_LOG(LogTemp, Warning, TEXT("Player controller BeginPlay() did not find AimingComponent!!!"));
 	}
 }
 

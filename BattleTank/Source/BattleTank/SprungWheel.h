@@ -7,6 +7,7 @@
 #include "SprungWheel.generated.h"
 
 class UPhysicsConstraintComponent;
+class USphereComponent;
 
 UCLASS()
 class BATTLETANK_API ASprungWheel : public AActor
@@ -16,10 +17,10 @@ class BATTLETANK_API ASprungWheel : public AActor
 public:
 
 	UPROPERTY(EditAnywhere, Category = "Setup")
-		float SpringStrength = 100;
+		float SpringStrength = 1000;
 
 	UPROPERTY(EditAnywhere, Category = "Setup")
-		float SpringDamp = 10;
+		float SpringDamp = 100;
 
 	//UPROPERTY(EditAnywhere, Category = "Setup")
 	//	float BaseMass = 10;
@@ -29,18 +30,29 @@ public:
 	
 
 	//components
-//Base Mass - ? this is not actually an object in tank... 
+
+	//Sprung Mass - Axle Component 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
-		UStaticMeshComponent* BaseMassComponent = nullptr;
-	//Sprung Mass - ? also not a visible mesh component, how is this going to integrate with tank?
-	UPROPERTY(VisibleAnywhere, Category = "Components")
-		UStaticMeshComponent* SprungMassComponent = nullptr;
-	//PhysConstraint
+		USphereComponent* SprungAxleComponent = nullptr;
+
+	//PhysConstraint -  base component (root) - springs axle
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 		UPhysicsConstraintComponent* SpringConstraint = nullptr;
 
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+		USphereComponent* WheelComponent = nullptr;
+
+	//PhysConstraint
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+		UPhysicsConstraintComponent* AxleWheelConstraint = nullptr;
+
+
 	// Sets default values for this actor's properties
 	ASprungWheel();
+
+private:
+	//connect constraint to components at attachement
+	void SetComponents();
 
 protected:
 	// Called when the game starts or when spawned
