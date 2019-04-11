@@ -22,6 +22,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Setup")
 		float SpringDamp = 100;
 
+	UFUNCTION()
+		void AddDrivingForce(float ForceMagnitude);
+
 	//UPROPERTY(EditAnywhere, Category = "Setup")
 	//	float BaseMass = 10;
 

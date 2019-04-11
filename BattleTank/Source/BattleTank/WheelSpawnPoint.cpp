@@ -3,6 +3,7 @@
 #include "WheelSpawnPoint.h"
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
+#include "Components/PrimitiveComponent.h"
 
 
 // Sets default values for this component's properties
@@ -22,13 +23,13 @@ void UWheelSpawnPoint::BeginPlay()
 	Super::BeginPlay();
 
 	// Spawn the attachment actor
-	auto Attachment = GetWorld()->SpawnActorDeferred<AActor>(SpawnClass,GetComponentTransform());
+	SpawnedActor = GetWorld()->SpawnActorDeferred<AActor>(SpawnClass,GetComponentTransform());
 	//UE_LOG(LogTemp, Warning, TEXT("Spawned Attachment: %s"), *Attachment->GetName());
 
-	if (!Attachment) return;
-	Attachment->AttachToComponent(this, FAttachmentTransformRules::KeepWorldTransform);
+	if (!SpawnedActor) return;
+	SpawnedActor->AttachToComponent(this, FAttachmentTransformRules::KeepWorldTransform);
 	//UE_LOG(LogTemp, Warning, TEXT("Attached to spawnPoint"));
-	UGameplayStatics::FinishSpawningActor(Attachment, GetComponentTransform());
+	UGameplayStatics::FinishSpawningActor(SpawnedActor, GetComponentTransform());
 }
 
 

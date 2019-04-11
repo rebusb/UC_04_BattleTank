@@ -6,6 +6,9 @@
 #include "Components/StaticMeshComponent.h"
 #include "TankTrack.generated.h"
 
+
+class ASprungWheel;
+
 /**
  * TankTrack is used to set limits and apply driving force to tank (treads)
  */
@@ -25,16 +28,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Input")
 	void SetThrottle(float SetInput);
 
-	virtual void BeginPlay() override;
 
-	void DriveTrack();
+	void DriveTrack(float CurrentTrottle);
 
-	void ApplySidewaysForce(float DeltaTime);
 
 private:
 	float CurrentThrottle = 0.0;
 
-	//Component OnHit() event delegate declared
-	UFUNCTION()
-	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+	//get const array of this track's attached wheels
+	TArray<class ASprungWheel*> GetWheels() const;
+
 };

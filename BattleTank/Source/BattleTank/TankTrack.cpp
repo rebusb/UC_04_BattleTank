@@ -3,62 +3,50 @@
 #include "TankTrack.h"
 
 #include "Engine/World.h"
+#include "SprungWheel.h"
+#include "WheelSpawnPoint.h"
+
 
 UTankTrack::UTankTrack()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
-void UTankTrack::BeginPlay()
-{
-	Super::BeginPlay();
-	PrimaryComponentTick.bCanEverTick = true;
-	OnComponentHit.AddDynamic(this, &UTankTrack::OnHit);
-}
 
-
-void UTankTrack::DriveTrack()
+void UTankTrack::DriveTrack(float CurrentThrottle)
 {
-	auto ForceApplied = GetForwardVector() * CurrentThrottle * TrackMaxDrivingForce;
-	auto ForceLocation = GetComponentLocation();
-	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
-	TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
-	//UE_LOG(LogTemp, Warning, TEXT("%s CurrentThrottle:%f ForceApplied:%s"), *GetOwner()->GetName(),CurrentThrottle, *ForceApplied.ToString());
+	float ForceApplied = CurrentThrottle * TrackMaxDrivingForce;
+	auto Wheels = GetWheels();
+	float ForcePerWheel = ForceApplied/Wheels.Num();
+
+	for (ASprungWheel* Wheel:Wheels)
+	{
+		Wheel->AddDrivingForce(ForcePerWheel);
+	}
 }
 
 void UTankTrack::SetThrottle(float Throttle)
 {
-	CurrentThrottle = FMath::Clamp<float>(CurrentThrottle + Throttle, -1.0, 1.0);
+	CurrentThrottle = FMath::Clamp<float>(Throttle, -1.0, 1.0);
+	DriveTrack(CurrentThrottle);
 }
 
-
-void UTankTrack::ApplySidewaysForce(float DeltaTime)
+TArray<ASprungWheel*> UTankTrack::GetWheels() const
 {
-	// Correct for low friction physics slipping
-	//Get slippage
-	FVector BaseVector = GetRightVector();
-	FVector Velocity = GetComponentVelocity();
-	float Slippage = FVector::DotProduct(BaseVector, Velocity);
-	float Speed = Velocity.Size();
+	TArray<ASprungWheel*> ResultArray;
+	TArray<USceneComponent*> Children;
+	GetChildrenComponents(true, Children);
+	for (USceneComponent* Child: Children)
+	{
+		auto SpawnPointChild = Cast<UWheelSpawnPoint>(Child);
+		if (!SpawnPointChild) continue;
 
-	//UE_LOG(LogTemp, Warning, TEXT("Slippage: %f vs Speed: %f"), Slippage, Speed);
+		AActor *SpawnedChild = SpawnPointChild->GetSpawnedActor();
+		auto SprungWheel = Cast<ASprungWheel>(SpawnedChild);
+		if (!SprungWheel) continue;
 
-	//calc compensating force
-	auto CorrectionAcceleration = -(Slippage / DeltaTime * BaseVector);
+		ResultArray.Add(SprungWheel);
 
-	//apply force (per tread!) to tank (root)
-	auto TankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
-	auto CorrectionForce = (TankRoot->GetMass() * CorrectionAcceleration)/2.0; // averaged across two tracks
-	TankRoot->AddForce(CorrectionForce);
+	}
+	return ResultArray;
 }
-
-//Component OnHit() event delegate implementation
-void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
-{
-	DriveTrack();
-	auto DeltaTime = GetWorld()->GetDeltaSeconds();
-	ApplySidewaysForce(DeltaTime);
-	CurrentThrottle = 0.0;
-}
-
-

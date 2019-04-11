@@ -4,6 +4,11 @@
 #include "PhysicsEngine/PhysicsConstraintComponent.h"
 #include "Components/SphereComponent.h"
 
+void ASprungWheel::AddDrivingForce(float ForceMagnitude)
+{
+	WheelComponent->AddForce(SprungAxleComponent->GetForwardVector()*ForceMagnitude);
+}
+
 // Sets default values
 ASprungWheel::ASprungWheel()
 {
