@@ -46,11 +46,14 @@ UFUNCTION(BlueprintImplementableEvent)
 ### Blueprint Spawnable Component
 
 Creating Actor components that are available in Blueprint Editor. 
-- Inherit from U*Componet class
+- Inherit from UActorComponent class
+    Add new C++ class in UE, inherit from ActorComponent class (UActorComponent)
 - declare as:  
-    `UCLASS(ClassGroup=("SectionName"), meta=(BlueprintSpawnableComponent)) ... `
+    `UCLASS(ClassGroup=(SectionName), meta=(BlueprintSpawnableComponent)) ... `
 
-note: The comment above the class declaration will appear as tooltip in editor.
+notes: 
+The SectionName is the heading the component will appear under in the "Add Component..." popup.
+The comment above the class declaration will appear as tooltip in editor.
 
 
 
