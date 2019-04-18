@@ -41,7 +41,6 @@ ASprungWheel::ASprungWheel()
 	if (ensure(AxleWheelConstraint))
 	{
 		AxleWheelConstraint->SetupAttachment(SprungAxleComponent);
-		AxleWheelConstraint->SetConstrainedComponents(SprungAxleComponent, NAME_None, WheelComponent, NAME_None);
 	}
 
 	
@@ -74,6 +73,8 @@ void ASprungWheel::SetComponents()
 		if (ensure(BaseComponent))
 		{
 			SpringConstraint->SetConstrainedComponents(BaseComponent, NAME_None, SprungAxleComponent, NAME_None);
+			AxleWheelConstraint->SetConstrainedComponents(SprungAxleComponent, NAME_None, WheelComponent, NAME_None);
+
 		}
 
 
